@@ -17,9 +17,9 @@ type ButtonLinkProps = {
 };
 
 const variants: Record<Variant, string> = {
-  solid: "bg-accent text-night hover:bg-chalk focus-visible:outline-chalk",
-  outline: "border border-chalk/30 bg-transparent text-chalk hover:border-chalk/65 hover:bg-chalk/5",
-  light: "bg-chalk text-night hover:bg-white",
+  solid: "bg-ink text-chalk hover:bg-accent-dark focus-visible:outline-accent",
+  outline: "border border-line-strong bg-transparent text-ink hover:border-ink hover:bg-ink hover:text-chalk",
+  light: "bg-chalk text-night hover:bg-white focus-visible:outline-accent",
 };
 
 const sizes: Record<Size, string> = {
@@ -43,7 +43,7 @@ export function ButtonLink({
       href={href}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       className={cn(
-        "group inline-flex items-center justify-center gap-3 rounded-lg font-bold transition-[background-color,color,border-color,transform] duration-200 active:translate-y-px",
+        "group inline-flex items-center justify-center gap-3 rounded-full font-bold transition-[background-color,color,border-color,transform] duration-200 active:translate-y-px",
         variants[variant],
         sizes[size],
         className,

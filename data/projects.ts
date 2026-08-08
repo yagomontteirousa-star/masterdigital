@@ -19,6 +19,12 @@ export interface Project {
   name: string;
   /** Segmento de atuação exibido acima do nome. */
   segment: string;
+  /** Estado/área e país exibidos no card. */
+  location: {
+    state?: string;
+    country: string;
+    flag: string;
+  };
   /** Descrição curta do projeto. */
   description: string;
   /** Desafio ou objetivo comercial exibido no projeto. */
@@ -42,7 +48,8 @@ export const projects: Project[] = [
   {
     slug: "vilela-turismo",
     name: "Vilela Turismo",
-    segment: "Agência de viagens · Caldas Novas",
+    segment: "Agência de viagens",
+    location: { state: "Goiás", country: "Brasil", flag: "br" },
     description: "Landing page onde a cotação do pacote começa e termina no WhatsApp.",
     objective:
       "Mostrar que existe uma agência real, com endereço físico e gente por trás, e encurtar o caminho entre a dúvida sobre o pacote e a conversa com o time.",
@@ -61,7 +68,8 @@ export const projects: Project[] = [
   {
     slug: "camilas-cleaning",
     name: "Camila's Cleaning Service",
-    segment: "Serviços de limpeza · Greater Boston",
+    segment: "Serviços de limpeza",
+    location: { state: "Massachusetts", country: "Estados Unidos", flag: "us" },
     description: "Site institucional em inglês para limpeza residencial e comercial.",
     objective:
       "Traduzir uma reputação construída no boca a boca em uma presença digital à altura, e organizar os pedidos de orçamento em um único caminho.",
@@ -73,14 +81,15 @@ export const projects: Project[] = [
     ],
     cover: "/projects/camilas-cleaning.jpg",
     coverAlt: "Página inicial do site da Camila's Cleaning Service",
-    url: "https://www.camilascleaningservice.com/",
+    url: "https://camilascleaning.vercel.app/",
     category: "Serviços",
     featured: true,
   },
   {
     slug: "al-the-painter",
     name: "Al The Painter LLC",
-    segment: "Pintura e acabamento · Estados Unidos",
+    segment: "Pintura e acabamento",
+    location: { state: "Massachusetts", country: "Estados Unidos", flag: "us" },
     description: "Site em inglês para um serviço de pintura e acabamento especializado.",
     objective:
       "Posicionar o acabamento especializado como diferencial visível já na primeira dobra, em um mercado onde quase todo concorrente comunica desconto.",
@@ -100,6 +109,7 @@ export const projects: Project[] = [
     slug: "gustavo-san",
     name: "Gustavo San",
     segment: "Locução e voice-over",
+    location: { country: "Brasil", flag: "br" },
     description: "Portfólio de voz para enviar direto a agências e produtoras.",
     objective:
       "Reunir trajetória, demos e marcas atendidas em uma página única que funcione como cartão de visita em uma negociação.",
@@ -118,7 +128,8 @@ export const projects: Project[] = [
   {
     slug: "master-sonorizacao",
     name: "Master Sonorização",
-    segment: "Instrumentos e áudio · Governador Valadares",
+    segment: "Instrumentos e áudio",
+    location: { state: "Minas Gerais", country: "Brasil", flag: "br" },
     description: "Catálogo digital de uma loja física de instrumentos e sonorização.",
     objective:
       "Levar o estoque da loja para o digital sem virar e-commerce: o cliente encontra o produto e consulta preço e disponibilidade no WhatsApp.",
@@ -130,15 +141,15 @@ export const projects: Project[] = [
     ],
     cover: "/projects/master-sonorizacao.jpg",
     coverAlt: "Página inicial do site da Master Sonorização",
-    // ---- SUBSTITUIR: colocar a URL ao vivo quando o site for publicado ----
-    url: null,
+    url: "https://sitemastersom.vercel.app/",
     category: "Catálogo",
     featured: false,
   },
   {
     slug: "beltrame-acessorios",
     name: "Beltrame Acessórios",
-    segment: "Materiais para marcenaria · Teixeira de Freitas",
+    segment: "Materiais para marcenaria",
+    location: { state: "Bahia", country: "Brasil", flag: "br" },
     description: "Vitrine de MDFs, ferragens, perfis e tintas para marcenarias.",
     objective:
       "Organizar um catálogo amplo em uma navegação simples o bastante para o marceneiro achar o item e mandar o pedido pelo WhatsApp.",
@@ -150,8 +161,7 @@ export const projects: Project[] = [
     ],
     cover: "/projects/beltrame-acessorios.jpg",
     coverAlt: "Página inicial do site da Beltrame Acessórios",
-    // ---- SUBSTITUIR: colocar a URL ao vivo quando o site for publicado ----
-    url: null,
+    url: "https://beltrameacess.vercel.app/",
     category: "Catálogo",
     featured: false,
   },

@@ -11,18 +11,18 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <main className="flex min-h-dvh flex-col bg-night text-chalk">
-      <div className="shell flex min-h-[4.75rem] items-center border-b border-line">
-        <Brand tone="dark" />
+    <main className="paper-noise flex min-h-dvh flex-col bg-light text-ink">
+      <div className="shell flex min-h-[5rem] items-center border-b border-line-light">
+        <Brand tone="light" />
       </div>
 
       <div className="shell flex flex-1 flex-col justify-center py-16">
-        <p data-numeric className="text-sm font-bold text-accent">Erro 404</p>
+        <p data-numeric className="text-sm font-bold text-accent-dark">Erro 404</p>
         <h1 className="display mt-5 max-w-[13ch] text-[clamp(3rem,7vw,5.5rem)] text-balance">
           Esta página não foi encontrada.
         </h1>
 
-        <p className="mt-7 max-w-lg text-lg leading-8 text-muted">
+        <p className="mt-7 max-w-lg text-lg leading-8 text-ink-600">
           O endereço pode ter mudado ou o link está incompleto. Volte aos projetos ou
           fale comigo direto.
         </p>

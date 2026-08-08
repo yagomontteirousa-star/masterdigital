@@ -1,5 +1,5 @@
 import { projects, type Project } from "@/data/projects";
-import { ProjectCard } from "@/components/ui/ProjectCard";
+import { ProjectCarousel } from "@/components/ui/ProjectCarousel";
 
 export function Projects() {
   const published = projects.filter(
@@ -7,24 +7,19 @@ export function Projects() {
   );
 
   return (
-    <section id="projetos" className="section-y bg-light text-light-ink">
+    <section id="projetos" className="projects-section bg-[#fbf8f1] py-16 text-ink md:py-20">
       <div className="shell">
-        <div className="grid gap-6 md:grid-cols-12 md:items-end">
-          <h2 className="display text-[clamp(2.5rem,5vw,4.5rem)] md:col-span-7">
-            Projetos publicados.
+        <div className="grid gap-6 border-b border-line-light pb-8 md:grid-cols-12 md:items-end">
+          <h2 className="display max-w-[20ch] text-[clamp(2.55rem,4.1vw,4.3rem)] md:col-span-8">
+            Sites diferentes para <em className="text-accent">negócios diferentes.</em>
           </h2>
-          <p className="max-w-lg text-base leading-7 text-ink-600 md:col-span-5 md:justify-self-end">
-            Quatro entregas reais, em segmentos diferentes, com a mesma prioridade:
-            deixar o negócio claro e facilitar o próximo contato.
+          <p className="max-w-md text-base leading-7 text-ink-600 md:col-span-4 md:justify-self-end">
+            Sites publicados em segmentos diferentes, todos desenhados para deixar a
+            empresa clara e facilitar o próximo contato.
           </p>
         </div>
-
-        <div className="mt-12 grid gap-x-7 gap-y-12 md:mt-16 md:grid-cols-2">
-          {published.map((project, index) => (
-            <ProjectCard key={project.slug} project={project} priority={index < 2} />
-          ))}
-        </div>
       </div>
+      <ProjectCarousel projects={published} />
     </section>
   );
 }

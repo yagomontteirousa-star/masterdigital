@@ -1,35 +1,66 @@
-import { capabilities } from "@/data/site";
+import Image from "next/image";
+import { processSteps } from "@/data/site";
 
 export function Process() {
   return (
-    <section id="processo" className="section-y bg-night text-chalk">
-      <div className="shell grid gap-12 lg:grid-cols-12 lg:gap-16">
-        <div className="lg:col-span-5">
-          <h2 className="display max-w-[11ch] text-[clamp(2.6rem,5vw,4.5rem)]">
-            Uma pessoa conduz tudo.
+    <section id="sobre" className="about-process overflow-hidden bg-night py-16 text-chalk md:py-20">
+      <div className="shell">
+        <div className="about-grid grid gap-10 border-b border-line pb-14 md:grid-cols-12 md:gap-12 md:pb-16">
+          <h2 className="display max-w-[20ch] text-[clamp(2.8rem,4.8vw,5rem)] md:col-span-6">
+            <span className="text-accent">Sou o Yago Monteiro.</span>{" "}Faço sites que parecem caros porque são{" "}
+            <span className="text-accent">bem feitos.</span>
+            <span className="mt-7 block max-w-none font-sans text-lg leading-8 tracking-normal text-chalk md:mt-8">
+              Criei a Master Digital para manter decisão e execução próximas. Você não é transferido entre atendimento, design e desenvolvimento: fala comigo do primeiro diagnóstico ao site no ar.
+            </span>
           </h2>
-          <p className="mt-6 max-w-lg text-lg leading-8 text-muted">
-            Da primeira conversa ao site publicado, você fala comigo. Isso mantém
-            estratégia, texto, visual e código seguindo a mesma direção.
-          </p>
-          <p className="mt-6 text-sm font-semibold text-chalk">
-            Yago Monteiro · Master Digital
-          </p>
+
+          <div className="about-profile md:col-span-6 md:justify-self-end">
+            <div className="portrait-slot">
+              <Image
+                src="/people/yago-monteiro.webp"
+                alt="Retrato de Yago Monteiro, fundador da Master Digital"
+                fill
+                sizes="(max-width: 767px) 92vw, 38vw"
+                className="portrait-slot__photo"
+              />
+              <span className="portrait-slot__shade" aria-hidden="true" />
+              <span className="portrait-slot__signature">
+                <Image
+                  src="/brand/master-digital-symbol-orange.svg"
+                  alt=""
+                  width={512}
+                  height={512}
+                />
+                Yago Monteiro
+              </span>
+            </div>
+          </div>
         </div>
 
-        <ul className="grid border-t border-line sm:grid-cols-2 lg:col-span-7">
-          {capabilities.map((capability, index) => (
-            <li
-              key={capability.title}
-              className={`border-b border-line py-6 sm:min-h-44 ${
-                index % 2 === 0 ? "sm:border-r sm:pr-7" : "sm:pl-7"
-              }`}
-            >
-              <h3 className="text-base font-bold text-chalk">{capability.title}</h3>
-              <p className="mt-3 text-sm leading-6 text-muted">{capability.text}</p>
-            </li>
-          ))}
-        </ul>
+        <div className="process-compact grid gap-8 pt-10 md:grid-cols-12 md:items-start">
+          <div className="md:col-span-3">
+            <h3 className="display max-w-[16ch] text-[clamp(2.2rem,3.35vw,3.45rem)]">
+              Três etapas. <span className="text-accent">Nenhuma surpresa.</span>
+            </h3>
+          </div>
+
+          <ol className="grid border-t border-line md:col-span-9 md:grid-cols-3">
+            {processSteps.map((step, index) => (
+              <li
+                key={step.number}
+                className="grid grid-cols-[2rem_1fr] gap-3 border-b border-line py-5 md:block md:border-r md:border-b-0 md:px-6 md:first:pl-0 md:last:border-r-0 md:last:pr-0"
+              >
+                <span className="text-xs font-bold text-accent" aria-hidden="true">
+                  0{index + 1}
+                </span>
+                <div>
+                  <h4 className="text-base font-bold text-chalk">{step.title}</h4>
+                  <p className="mt-2 text-sm leading-6 text-muted">{step.text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
       </div>
     </section>
   );

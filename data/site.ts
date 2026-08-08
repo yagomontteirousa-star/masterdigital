@@ -10,7 +10,7 @@ export const site = {
   name: "Yago Monteiro",
   /* ---- SUBSTITUIR: estudio/marca exibida ao lado do nome ---- */
   studio: "Master Digital",
-  role: "Sites sob medida para empresas",
+  role: "Sites sob medida para empresas no mundo todo",
 
   /* Defina NEXT_PUBLIC_SITE_URL somente quando o domínio final existir. */
   url: configuredUrl || null,
@@ -24,7 +24,7 @@ export const site = {
   email: "yagomontteirousa@gmail.com",
 
   /* ---- SUBSTITUIR: cidade / regiao de atendimento ---- */
-  location: "Brasil · atendimento remoto",
+  location: "Atendimento remoto · mundo todo",
 } as const;
 
 /** Link de WhatsApp ja montado com a mensagem inicial. */
@@ -33,8 +33,9 @@ export const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeU
 )}`;
 
 export const nav = [
+  { label: "Início", href: "#top" },
   { label: "Projetos", href: "#projetos" },
-  { label: "Processo", href: "#processo" },
+  { label: "Sobre", href: "#sobre" },
   { label: "Contato", href: "#contato" },
 ] as const;
 

@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 type IconProps = {
   className?: string;
 };
@@ -36,6 +38,91 @@ export function ArrowRight({ className }: IconProps) {
       <path d="M2.5 8h11" />
       <path d="M9.5 4 13.5 8l-4 4" />
     </svg>
+  );
+}
+
+export function ArrowLeft({ className }: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="M13.5 8h-11" />
+      <path d="M6.5 4 2.5 8l4 4" />
+    </svg>
+  );
+}
+
+function StrokeIcon({ className, children }: IconProps & { children: ReactNode }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.6}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+    >
+      {children}
+    </svg>
+  );
+}
+
+export function MailIcon({ className }: IconProps) {
+  return (
+    <StrokeIcon className={className}>
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <path d="m4 7 8 6 8-6" />
+    </StrokeIcon>
+  );
+}
+
+export function LocationIcon({ className }: IconProps) {
+  return (
+    <StrokeIcon className={className}>
+      <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z" />
+      <circle cx="12" cy="10" r="2.5" />
+    </StrokeIcon>
+  );
+}
+
+export function IdeaIcon({ className }: IconProps) {
+  return (
+    <StrokeIcon className={className}>
+      <path d="M12 2v2M4.93 4.93l1.42 1.42M2 12h2M19.07 4.93l-1.42 1.42M20 12h2" />
+      <path d="M9 18h6" />
+      <path d="M10 22h4" />
+      <path d="M8.3 14.4A6 6 0 1 1 15.7 14.4C14.6 15.2 14 16.1 14 18h-4c0-1.9-.6-2.8-1.7-3.6Z" />
+    </StrokeIcon>
+  );
+}
+
+export function StructureIcon({ className }: IconProps) {
+  return (
+    <StrokeIcon className={className}>
+      <rect x="3" y="3" width="7" height="7" rx="1.5" />
+      <rect x="14" y="3" width="7" height="7" rx="1.5" />
+      <rect x="8.5" y="14" width="7" height="7" rx="1.5" />
+      <path d="M6.5 10v2h11v-2M12 12v2" />
+    </StrokeIcon>
+  );
+}
+
+export function ResultIcon({ className }: IconProps) {
+  return (
+    <StrokeIcon className={className}>
+      <circle cx="12" cy="12" r="8" />
+      <circle cx="12" cy="12" r="3" />
+      <path d="m14.2 9.8 5.3-5.3M16 4.5h3.5V8" />
+    </StrokeIcon>
   );
 }
 

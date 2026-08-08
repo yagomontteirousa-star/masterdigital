@@ -12,9 +12,8 @@ export default function OpenGraphImage() {
           width: "100%",
           height: "100%",
           display: "flex",
-          background: "#0e0f11",
-          color: "#f2f0eb",
-          fontFamily: "Arial, sans-serif",
+          background: "#f4efe5",
+          color: "#1c1b18",
           position: "relative",
           overflow: "hidden",
         }}
@@ -25,29 +24,29 @@ export default function OpenGraphImage() {
             flexDirection: "column",
             justifyContent: "space-between",
             padding: "62px 68px",
-            width: 760,
+            width: 820,
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 14, fontSize: 23 }}>
-            <span style={{ width: 12, height: 12, borderRadius: 2, background: "#ff5a00" }} />
-            <span>Yago Monteiro · Master Digital</span>
+            <span style={{ width: 12, height: 12, borderRadius: 2, background: "#FF5A00" }} />
+            <span style={{ fontWeight: 700 }}>Yago Monteiro · Master Digital</span>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
             <div
               style={{
                 display: "flex",
                 flexDirection: "column",
-                fontSize: 65,
-                lineHeight: 1,
-                fontWeight: 700,
+                fontSize: 61,
+                lineHeight: 0.98,
+                fontWeight: 600,
                 letterSpacing: -2.5,
               }}
             >
-              <span>Confiança antes da</span>
-              <span>primeira conversa.</span>
+              <span>Uma boa primeira impressão</span>
+              <span style={{ color: "#FF5A00" }}>transforma atenção em conversa.</span>
             </div>
-            <div style={{ fontSize: 23, color: "#a6a39c" }}>
-              Estratégia · texto · design · desenvolvimento
+            <div style={{ fontSize: 22, color: "#5f5b53" }}>
+              Sites sob medida · estratégia · design · desenvolvimento
             </div>
           </div>
         </div>
@@ -57,27 +56,27 @@ export default function OpenGraphImage() {
             flexDirection: "column",
             justifyContent: "space-between",
             margin: "62px 62px 62px 0",
-            padding: "42px",
+            padding: "38px",
             flex: 1,
             borderRadius: 18,
-            background: "#efeee9",
-            color: "#191a1d",
+            background: "#1c1b18",
+            color: "#f7f2e8",
           }}
         >
           <div style={{ display: "flex", fontSize: 28, lineHeight: 1.2, fontWeight: 700 }}>
-            Uma direção única,<br />do posicionamento<br />ao site no ar.
+            Quatro projetos<br />publicados.<br />Uma direção única.
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 13, fontSize: 18 }}>
             {["Mensagem clara", "Design sob medida", "Contato sem atrito"].map((item) => (
               <div
                 key={item}
-                style={{ display: "flex", paddingTop: 13, borderTop: "1px solid #c9c7c0" }}
+                style={{ display: "flex", paddingTop: 13, borderTop: "1px solid #3d3b34" }}
               >
                 {item}
               </div>
             ))}
           </div>
-          <div style={{ display: "flex", width: 72, height: 8, background: "#ff5a00" }} />
+          <div style={{ display: "flex", width: 72, height: 8, background: "#FF5A00" }} />
         </div>
       </div>
     ),

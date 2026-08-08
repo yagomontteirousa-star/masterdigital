@@ -1,47 +1,67 @@
-import Image from "next/image";
 import type { Project } from "@/data/projects";
 import { ArrowUpRight } from "./Icons";
+import { BrowserFrame } from "./BrowserFrame";
+
+type PublishedProject = Project & { url: string };
 
 type ProjectCardProps = {
-  project: Project & { url: string };
+  project: PublishedProject;
   priority?: boolean;
+  duplicate?: boolean;
+  onVisit: (project: PublishedProject) => void;
 };
 
-export function ProjectCard({ project, priority = false }: ProjectCardProps) {
+export function ProjectCard({ project, priority = false, duplicate = false, onVisit }: ProjectCardProps) {
   return (
-    <article className="project-tile group">
-      <a
-        href={project.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="relative block aspect-[16/10] overflow-hidden rounded-lg bg-white shadow-[0_24px_60px_-40px_rgba(14,15,17,0.65)]"
-        aria-label={`Abrir o site ${project.name}`}
+    <article className="project-tile group" aria-hidden={duplicate || undefined}>
+      <button
+        type="button"
+        onClick={() => onVisit(project)}
+        className="project-tile__visit-trigger block w-full rounded-[0.875rem] text-left focus-visible:outline-offset-8"
+        aria-label={`Ver o site ${project.name}`}
+        data-project-slug={project.slug}
+        tabIndex={duplicate ? -1 : undefined}
       >
-        <Image
+        <BrowserFrame
           src={project.cover}
-          alt={project.coverAlt}
-          fill
+          alt={duplicate ? "" : project.coverAlt}
+          label={project.url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}
           priority={priority}
-          sizes="(max-width: 768px) 92vw, 46vw"
-          className="project-tile__image object-cover object-top"
+          sizes="(max-width: 640px) 82vw, (max-width: 1200px) 40vw, 34rem"
+          imageClassName="project-tile__image"
         />
-      </a>
+        <span className="project-tile__visit-prompt" aria-hidden="true">
+          <span>Clique para visitar</span>
+          <ArrowUpRight className="size-4" />
+        </span>
+      </button>
 
-      <div className="mt-5 flex items-start justify-between gap-5 border-t border-line-light pt-4">
+      <div className="mt-5 flex items-start justify-between gap-5 border-t border-line-light pt-5">
         <div>
-          <h3 className="display text-[clamp(1.7rem,3vw,2.35rem)]">{project.name}</h3>
-          <p className="mt-2 text-sm text-ink-600">{project.segment}</p>
+          <div className="project-tile__meta">
+            <p className="text-xs font-bold uppercase tracking-[0.12em] text-accent-dark">{project.segment}</p>
+            <p className="project-tile__location">
+              <span
+                role="img"
+                aria-label={`Bandeira de ${project.location.country}`}
+                className={`country-flag country-flag--${project.location.flag}`}
+              />
+              <span>{project.location.state ? `${project.location.state} · ` : ""}{project.location.country}</span>
+            </p>
+          </div>
+          <h3 className="display mt-2 text-[clamp(2rem,3vw,2.75rem)]">{project.name}</h3>
           <p className="mt-3 max-w-xl text-sm leading-6 text-ink-600">{project.description}</p>
         </div>
-        <a
-          href={project.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="grid size-11 shrink-0 place-items-center rounded-full border border-line-strong transition-colors duration-200 hover:border-light-ink hover:bg-light-ink hover:text-light"
-          aria-label={`Visitar ${project.name}`}
+        <button
+          type="button"
+          onClick={() => onVisit(project)}
+          className="grid size-11 shrink-0 place-items-center rounded-full border border-line-strong transition-colors duration-200 hover:border-ink hover:bg-ink hover:text-chalk"
+          aria-label={`Ver o site ${project.name}`}
+          data-project-slug={project.slug}
+          tabIndex={duplicate ? -1 : undefined}
         >
           <ArrowUpRight className="size-4" />
-        </a>
+        </button>
       </div>
     </article>
   );

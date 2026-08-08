@@ -27,10 +27,10 @@ const CHROME_CANDIDATES = [
 const TARGETS = [
   { slug: "vilela-turismo", url: "https://vilelaturismo.com/", file: "vilela-turismo-repo/index.html" },
   { slug: "al-the-painter", url: "https://althepainterllc.vercel.app/", file: "althepainterllc/index.html" },
-  { slug: "camilas-cleaning", url: "https://www.camilascleaningservice.com/", file: "camilascleaning/index.html" },
+  { slug: "camilas-cleaning", url: "https://camilascleaning.vercel.app/", file: "camilascleaning/index.html" },
   { slug: "gustavo-san", url: "https://portfoliogustavosan.vercel.app/", file: "gustavosan/index.html" },
-  { slug: "master-sonorizacao", url: null, file: "mastersonorizacao/index.html" },
-  { slug: "beltrame-acessorios", url: null, file: "beltrameacess/index.html" },
+  { slug: "master-sonorizacao", url: "https://sitemastersom.vercel.app/", file: "mastersonorizacao/index.html" },
+  { slug: "beltrame-acessorios", url: "https://beltrameacess.vercel.app/", file: "beltrameacess/index.html" },
 ];
 
 const VIEWPORT = { width: 1440, height: 900, deviceScaleFactor: 1.5 };
@@ -111,13 +111,24 @@ async function captureOg(browser) {
 
 async function main() {
   mkdirSync(OUT_DIR, { recursive: true });
+  const requestedSlugs = new Set(process.argv.slice(2));
+  const targets = requestedSlugs.size
+    ? TARGETS.filter((target) => requestedSlugs.has(target.slug))
+    : TARGETS;
+
+  if (requestedSlugs.size && targets.length !== requestedSlugs.size) {
+    const known = new Set(TARGETS.map((target) => target.slug));
+    const unknown = [...requestedSlugs].filter((slug) => !known.has(slug));
+    throw new Error(`Slug desconhecido: ${unknown.join(", ")}`);
+  }
+
   const browser = await puppeteer.launch({
     executablePath: findChrome(),
     headless: "new",
     args: ["--hide-scrollbars", "--force-color-profile=srgb", "--no-sandbox"],
   });
 
-  for (const target of TARGETS) {
+  for (const target of targets) {
     const page = await browser.newPage();
     await page.setViewport(VIEWPORT);
     const local = pathToFileURL(resolve(SITES_DIR, target.file)).href;
@@ -144,7 +155,7 @@ async function main() {
     await page.close();
   }
 
-  await captureOg(browser);
+  if (!requestedSlugs.size) await captureOg(browser);
   await browser.close();
 }
 

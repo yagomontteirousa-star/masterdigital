@@ -1,35 +1,48 @@
 import Image from "next/image";
 import { site, whatsappHref } from "@/data/site";
+import { LocationIcon, MailIcon, WhatsAppIcon } from "@/components/ui/Icons";
 
 export function Footer() {
   return (
-    <footer className="border-t border-line bg-night py-8 text-muted">
-      <div className="shell flex flex-col gap-7 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center gap-4">
-          <Image
-            src="/brand/master-digital-symbol-orange.svg"
-            alt=""
-            width={512}
-            height={512}
-            className="size-7"
-          />
-          <p className="text-xs leading-5">
-            © {new Date().getFullYear()} {site.name} · {site.studio}
+    <footer className="site-footer border-t border-line bg-night py-10 text-muted">
+      <div className="shell grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+        <div>
+          <div className="flex items-center gap-4">
+            <Image
+              src="/brand/master-digital-symbol-orange.svg"
+              alt=""
+              width={512}
+              height={512}
+              className="size-8"
+            />
+            <div>
+              <p className="font-bold text-chalk">{site.name}</p>
+              <p className="mt-1 text-xs">{site.studio} · sites sob medida</p>
+            </div>
+          </div>
+          <p className="mt-6 text-xs leading-5">
+            © {new Date().getFullYear()} {site.name}. Todos os direitos reservados.
           </p>
         </div>
 
-        <div className="flex flex-col gap-2 text-sm sm:flex-row sm:items-center sm:gap-6">
+        <div className="footer-contacts">
           <a
             href={whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex min-h-11 items-center font-semibold text-chalk hover:text-accent"
+            className="footer-contact"
           >
-            +1 774 249 8958
+            <span className="footer-contact__icon"><WhatsAppIcon className="size-4" /></span>
+            <span><small>WhatsApp</small>+1 774 249 8958</span>
           </a>
-          <a href={`mailto:${site.email}`} className="inline-flex min-h-11 items-center hover:text-chalk">
-            {site.email}
+          <a href={`mailto:${site.email}`} className="footer-contact">
+            <span className="footer-contact__icon"><MailIcon className="size-4" /></span>
+            <span><small>E-mail</small>{site.email}</span>
           </a>
+          <div className="footer-contact footer-contact--static">
+            <span className="footer-contact__icon"><LocationIcon className="size-4" /></span>
+            <span><small>Atendimento</small>{site.location}</span>
+          </div>
         </div>
       </div>
     </footer>

@@ -1,19 +1,42 @@
 import Image from "next/image";
+import type { MouseEventHandler } from "react";
 import { site } from "@/data/site";
 import { cn } from "@/lib/cn";
 
 type BrandProps = {
   tone?: "light" | "dark";
+  variant?: "personal" | "studio";
   className?: string;
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
 };
 
-export function Brand({ tone = "dark", className }: BrandProps) {
+export function Brand({ tone = "dark", variant = "personal", className, onClick }: BrandProps) {
   const darkSurface = tone === "dark";
+
+  if (variant === "studio") {
+    return (
+      <a
+        href="#top"
+        onClick={onClick}
+        className={cn("group inline-flex min-h-11 items-center", className)}
+        aria-label={`${site.studio} — início`}
+      >
+        <Image
+          src={darkSurface ? "/brand/master-digital-white.svg" : "/brand/master-digital-black.svg"}
+          alt="Master Digital"
+          width={1120}
+          height={300}
+          className="h-7 w-auto transition-transform duration-200 group-hover:-rotate-1"
+        />
+      </a>
+    );
+  }
 
   return (
     <a
       href="#top"
-      className={cn("group inline-flex min-h-11 items-center gap-3", className)}
+      onClick={onClick}
+      className={cn("group inline-flex min-h-11 items-center gap-2.5", className)}
       aria-label={`${site.name} — início`}
     >
       <Image
@@ -25,12 +48,12 @@ export function Brand({ tone = "dark", className }: BrandProps) {
         alt=""
         width={512}
         height={512}
-        className="size-7 transition-transform duration-200 group-hover:-rotate-3"
+        className="size-6 transition-transform duration-200 group-hover:-rotate-3"
       />
       <span className="flex flex-col leading-none">
         <span
           className={cn(
-            "text-sm font-bold tracking-[-0.025em]",
+            "text-sm font-extrabold tracking-[-0.03em]",
             darkSurface ? "text-chalk" : "text-light-ink",
           )}
         >

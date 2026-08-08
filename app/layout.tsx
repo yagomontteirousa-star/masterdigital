@@ -1,20 +1,21 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, Manrope } from "next/font/google";
+import { Instrument_Serif, Manrope } from "next/font/google";
 import { site } from "@/data/site";
 import "./globals.css";
 
-const display = Archivo({
+const display = Instrument_Serif({
   subsets: ["latin"],
-  weight: "variable",
+  weight: "400",
+  style: ["normal", "italic"],
   display: "swap",
-  variable: "--font-display",
+  variable: "--font-display-face",
 });
 
 const sans = Manrope({
   subsets: ["latin"],
   weight: "variable",
   display: "swap",
-  variable: "--font-sans",
+  variable: "--font-sans-face",
 });
 
 const title = `${site.name} — Sites sob medida para empresas`;
@@ -70,8 +71,9 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0e0f11",
-  colorScheme: "dark light",
+  themeColor: "#f4efe5",
+  colorScheme: "light dark",
+  viewportFit: "cover",
 };
 
 const jsonLd = {
@@ -81,23 +83,23 @@ const jsonLd = {
   description,
   email: site.email,
   telephone: "+17742498958",
-  areaServed: "BR",
+  areaServed: "Worldwide",
   serviceType: "Criação de sites",
   founder: { "@type": "Person", name: site.name },
   ...(site.url ? { url: site.url } : {}),
 };
 
 const designContract = {
-  seed: "2e7b0dc6-sala-privada-edit-suite",
+  seed: "7c2a91e4-editorial-studio-reference-a",
   thesis:
-    "Fazer o trabalho real ocupar a tela e recusar títulos gigantes, listas intermináveis e decoração de agência.",
+    "Convencer e provar no mesmo primeiro olhar: argumento editorial à esquerda, trabalho publicado em sobreposição à direita.",
   world:
-    "Sala privada de exibição: carvão, branco quente, superfícies de projeção e laranja Master usado apenas para ação e seleção.",
+    "Estúdio editorial luminoso: papel marfim, tinta quente, regras tipográficas, laranja Master e capturas reais tratadas como provas impressas.",
   story:
     "O visitante entende a oferta, vê quatro trabalhos publicados, compreende o processo e inicia uma conversa pelo WhatsApp.",
   firstViewport:
-    "Argumento comercial em sete colunas, escopo integrado em painel claro à direita, CTA visível e três provas sintéticas fechando a dobra; projetos começam na seção seguinte.",
-  form: "Sala Privada com hierarquia ajustada por pedido direto do usuário: convencimento primeiro, projetos depois; comp de base .impeccable/mocks/sala-privada-c.webp.",
+    "Header flutuante; argumento comercial em cinco colunas; duas telas reais sobrepostas em sete colunas; CTA visível; toda a composição cabe em 100svh e recebe um sinal de projeto animado ao fundo.",
+  form: "Editorial Studio expandido: hero persuasiva em uma dobra, projetos em fluxo horizontal contínuo, autoria ampliada, processo compacto e CTA laranja reativo.",
   finish:
     "unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md",
 };
