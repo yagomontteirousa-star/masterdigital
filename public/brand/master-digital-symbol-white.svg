@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="512"
+   height="512"
+   viewBox="0 0 512 512"
+   role="img"
+   aria-label="Master Digital symbol"
+   version="1.1"
+   id="svg12"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs16" />
+  <g
+     transform="matrix(1.18,0,0,1.18,26,28)"
+     id="g10">
+    <g
+       fill="#ffffff"
+       id="g8">
+      <path
+         d="m 60,70 h 240 v 50 H 120 v 220 h 180 v 50 H 60 Z"
+         id="path2" />
+      <path
+         d="m 215,150 165,105 -70,11 20,90 -48,12 -20,-84 -62,44 z"
+         id="path4" />
+      <path
+         id="rect6"
+         d="m 340,70 h 50 v 50 h -50 z" />
+    </g>
+  </g>
+</svg>

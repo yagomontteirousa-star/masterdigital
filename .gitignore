@@ -1,0 +1,18 @@
+node_modules
+.next
+out
+build
+.DS_Store
+*.pem
+npm-debug.log*
+.env*
+!.env.example
+next-env.d.ts
+.vercel
+tsconfig.tsbuildinfo
+
+# Skills de terceiros instaladas localmente (Apache-2.0 / MIT / Anthropic).
+# Sao ferramenta, nao codigo deste projeto, e tem licenca propria.
+.claude/skills/
+# Permissoes locais da maquina, com caminhos absolutos.
+.claude/settings.local.json

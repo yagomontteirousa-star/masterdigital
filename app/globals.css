@@ -1,0 +1,260 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------
+   Design tokens
+   Paleta derivada do kit de marca Master Digital:
+   laranja #FF5A00 · preto #0A0A0A · branco #FFFFFF
+   O laranja e acento, nunca fundo de secao inteira.
+----------------------------------------------------------------*/
+@theme {
+  --color-paper: #f8f5f0;
+  --color-paper-deep: #f0eae1;
+  --color-surface: #ffffff;
+
+  --color-ink: #14120f;
+  --color-ink-800: #2b2622;
+  --color-ink-600: #565049;
+  /* Tom secundario mais escuro que o cinza "bonito" — garante 5:1 sobre o papel. */
+  --color-ink-400: #6f685f;
+
+  --color-line: #e2dcd3;
+  --color-line-strong: #cfc7bb;
+
+  /* Laranja da marca: usar em preenchimentos, pontos, bordas e brilhos. */
+  --color-accent: #ff5a00;
+  /* Versao escurecida para TEXTO e fundo de botao — o laranja puro
+     nao atinge contraste AA sobre papel nem com texto branco por cima. */
+  --color-accent-deep: #d14700;
+  --color-accent-soft: #fff0e7;
+
+  --font-display: var(--font-display), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+
+  /* Sombras com tinta quente (marrom-preto), nao cinza neutro:
+     sobre papel creme o cinza puro suja, o quente aprofunda. */
+  --shadow-soft:
+    0 1px 2px rgb(38 26 14 / 0.05), 0 4px 10px -4px rgb(38 26 14 / 0.10),
+    0 14px 34px -14px rgb(38 26 14 / 0.20);
+  --shadow-lift:
+    0 2px 6px rgb(38 26 14 / 0.07), 0 12px 26px -10px rgb(38 26 14 / 0.16),
+    0 44px 80px -34px rgb(38 26 14 / 0.42);
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-marquee: marquee 52s linear infinite;
+  /* Brilho que respira nas secoes escuras — lento o bastante para nao competir
+     com a leitura, mas suficiente para a area preta nao parecer morta. */
+  --animate-drift: drift 22s ease-in-out infinite alternate;
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes drift {
+    to {
+      transform: translate3d(8%, 6%, 0) scale(1.18);
+      opacity: 0.72;
+    }
+  }
+
+  /* Grão de filme: SVG inline (sem arquivo, sem requisição). Tons de cinza,
+     por isso funciona tanto sobre papel quanto sobre preto. */
+  /* Camadas sistemicas. Nada de z-index avulso espalhado pelos componentes. */
+  --z-header: 40;
+  --z-vignette: 60;
+  --z-grain: 61;
+
+  --texture-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+
+/* ---------------------------------------------------------------
+   Base
+----------------------------------------------------------------*/
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Camada de grão sobre toda a pagina. Sem blend-mode de proposito:
+     evita recomposicao do viewport inteiro a cada scroll no mobile. */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-grain);
+    pointer-events: none;
+    background-image: var(--texture-grain);
+    opacity: 0.085;
+  }
+
+  /* Vinheta cinematografica: fecha as bordas e empurra o olho para o centro. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-vignette);
+    pointer-events: none;
+    background: radial-gradient(
+      130% 90% at 50% 35%,
+      transparent 55%,
+      rgb(38 26 14 / 0.09) 100%
+    );
+  }
+
+  /* Ancoras nao ficam escondidas atras do header fixo. */
+  section[id] {
+    scroll-margin-top: 5rem;
+  }
+
+  /* Superfícies que o navegador desenha por conta própria. Deixá-las no padrão
+     é o que denuncia página montada em vez de construída. */
+  ::selection {
+    background-color: var(--color-accent);
+    color: #fff;
+  }
+
+  html {
+    scrollbar-color: var(--color-line-strong) transparent;
+    scrollbar-width: thin;
+  }
+
+  ::-webkit-scrollbar {
+    width: 11px;
+    height: 11px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--color-line-strong);
+    border-radius: 999px;
+    /* Borda da cor do papel afina o polegar sem encostar nas bordas. */
+    border: 3px solid var(--color-paper);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-ink-400);
+  }
+
+  body {
+    caret-color: var(--color-accent);
+  }
+
+  a {
+    text-underline-offset: 0.18em;
+    text-decoration-thickness: 1px;
+  }
+
+  /* Números em colunas alinhadas, não em larguras proporcionais. */
+  time,
+  [data-numeric] {
+    font-variant-numeric: tabular-nums;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------
+   Utilitarios de composicao
+----------------------------------------------------------------*/
+@utility shell {
+  width: 100%;
+  max-width: 84rem;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+
+  @media (width >= 48rem) {
+    padding-inline: 2.5rem;
+  }
+  @media (width >= 80rem) {
+    padding-inline: 3.5rem;
+  }
+}
+
+/* Titulo display: serifada, tracking negativo, leading curto. */
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 0.98;
+}
+
+/* Rotulo pequeno em caixa alta usado como eyebrow. */
+@utility eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* Regua fina que separa blocos editoriais. */
+@utility hairline {
+  height: 1px;
+  width: 100%;
+  background-color: var(--color-line);
+}
+
+/* Respiro vertical padrao das secoes. Um lugar so para calibrar
+   o comprimento do site inteiro. */
+/* Base ligeiramente maior embaixo: paddings matematicamente iguais leem
+   como desequilibrados: o olho precisa de mais ar depois do conteudo. */
+@utility section-y {
+  padding-top: 4rem;
+  padding-bottom: 4.75rem;
+
+  @media (width >= 48rem) {
+    padding-top: 5rem;
+    padding-bottom: 6rem;
+  }
+  @media (width >= 64rem) {
+    padding-top: 6rem;
+    padding-bottom: 7rem;
+  }
+}
+
+/* Esconde a barra de rolagem do carrossel sem perder a rolagem. */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
