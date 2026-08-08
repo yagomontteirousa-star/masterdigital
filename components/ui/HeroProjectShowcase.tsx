@@ -49,14 +49,15 @@ export function HeroProjectShowcase({ projects }: { projects: HeroProjectPreview
   }, []);
 
   useEffect(() => {
-    if (!running || projects.length < 3) {
-      setPrimaryPhase("visible");
-      setSecondaryPhase("visible");
-      return;
-    }
+    if (!running || projects.length < 3) return;
 
     let nextSlot: "primary" | "secondary" = "primary";
     const timers: number[] = [];
+
+    timers.push(window.setTimeout(() => {
+      setPrimaryPhase("visible");
+      setSecondaryPhase("visible");
+    }, 0));
 
     const swap = (
       setPhase: (phase: FramePhase) => void,
@@ -90,6 +91,8 @@ export function HeroProjectShowcase({ projects }: { projects: HeroProjectPreview
 
   const primary = projects[primaryIndex % projects.length];
   const secondary = projects[secondaryIndex % projects.length];
+  const primaryDisplayPhase = running && projects.length >= 3 ? primaryPhase : "visible";
+  const secondaryDisplayPhase = running && projects.length >= 3 ? secondaryPhase : "visible";
 
   return (
     <div ref={rootRef} className="hero-proof relative z-10 mx-auto w-full max-w-[46rem]">
@@ -100,7 +103,7 @@ export function HeroProjectShowcase({ projects }: { projects: HeroProjectPreview
         label={primary.url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}
         priority
         sizes="(max-width: 1024px) 94vw, 58vw"
-        className={`hero-proof__primary hero-proof__frame hero-proof__frame--primary ml-auto w-[94%] is-${primaryPhase}`}
+        className={`hero-proof__primary hero-proof__frame hero-proof__frame--primary ml-auto w-[94%] is-${primaryDisplayPhase}`}
         imageClassName="project-tile__image"
       />
       <BrowserFrame
@@ -110,7 +113,7 @@ export function HeroProjectShowcase({ projects }: { projects: HeroProjectPreview
         label={secondary.url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}
         priority
         sizes="(max-width: 640px) 72vw, 32vw"
-        className={`hero-proof__secondary hero-proof__frame hero-proof__frame--secondary absolute bottom-0 left-0 w-[61%] is-${secondaryPhase}`}
+        className={`hero-proof__secondary hero-proof__frame hero-proof__frame--secondary absolute bottom-0 left-0 w-[61%] is-${secondaryDisplayPhase}`}
         imageClassName="project-tile__image"
       />
     </div>
