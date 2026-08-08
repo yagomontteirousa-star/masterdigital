@@ -3,18 +3,20 @@
  * Tudo que muda com frequencia mora aqui — nao espalhe pelos componentes.
  */
 
+const configuredUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, "");
+
 export const site = {
   /* ---- SUBSTITUIR: nome exibido no header e no footer ---- */
   name: "Yago Monteiro",
   /* ---- SUBSTITUIR: estudio/marca exibida ao lado do nome ---- */
   studio: "Master Digital",
-  role: "Criação de sites para empresas",
+  role: "Sites sob medida para empresas",
 
-  /* ---- SUBSTITUIR: dominio final do portfolio (usado em metadata e Open Graph) ---- */
-  url: "https://masterdigital.dev",
+  /* Defina NEXT_PUBLIC_SITE_URL somente quando o domínio final existir. */
+  url: configuredUrl || null,
 
-  /* ---- SUBSTITUIR: seu numero de WhatsApp com DDI + DDD, apenas digitos ---- */
-  whatsappNumber: "5500000000000",
+  /* Número real com DDI + DDD, apenas dígitos. */
+  whatsappNumber: "17742498958",
   whatsappMessage:
     "Olá, Yago! Vi seu portfólio e quero um orçamento para o site da minha empresa.",
 
@@ -33,27 +35,7 @@ export const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeU
 export const nav = [
   { label: "Projetos", href: "#projetos" },
   { label: "Processo", href: "#processo" },
-  { label: "Sobre", href: "#sobre" },
   { label: "Contato", href: "#contato" },
-] as const;
-
-/** Setores exibidos abaixo do hero. Lista curta — no maximo 5 itens. */
-export const segmentsServed = [
-  "Turismo",
-  "Serviços",
-  "Varejo",
-  "Locução",
-  "Construção",
-] as const;
-
-/** Itens da faixa em movimento entre o hero e os projetos. Textos curtos. */
-export const marqueeItems = [
-  "Criação de sites",
-  "Landing pages",
-  "Conversão no WhatsApp",
-  "SEO básico",
-  "Design responsivo",
-  "Identidade aplicada",
 ] as const;
 
 /** Etapas da secao "Como eu trabalho". Maximo de 3 para manter a leitura curta. */
@@ -62,26 +44,38 @@ export const processSteps = [
     number: "01",
     title: "Estratégia",
     text: "Entendo o que a empresa vende, para quem, e qual ação precisa acontecer no site.",
-    detail: "Escopo · arquitetura · mensagem",
+    detail: "Escopo, arquitetura e mensagem",
   },
   {
     number: "02",
     title: "Criação",
     text: "Desenho e desenvolvo sob medida. Nada de tema pronto: cada bloco tem função comercial.",
-    detail: "Design · desenvolvimento · conteúdo",
+    detail: "Design, desenvolvimento e conteúdo",
   },
   {
     number: "03",
     title: "Publicação",
     text: "Publico com domínio, SEO básico e testes em desktop e celular. Entrego funcionando.",
-    detail: "Deploy · SEO · testes finais",
+    detail: "Publicação, busca e testes finais",
   },
 ] as const;
 
 /** Frentes de trabalho listadas na secao Sobre. */
 export const capabilities = [
-  { title: "Sites sob medida", text: "Estrutura e design criados para o negócio, não adaptados de template." },
-  { title: "Conversão e WhatsApp", text: "Caminho claro do primeiro scroll até a conversa começar." },
-  { title: "SEO básico", text: "Metadados, títulos, Open Graph, favicon e HTML semântico desde o primeiro dia." },
-  { title: "Acabamento responsivo", text: "Ajuste fino em desktop, tablet e celular — não apenas redução de largura." },
+  {
+    title: "Estratégia e mensagem",
+    text: "A página nasce do que a empresa vende, de quem precisa entender e da ação que deve acontecer.",
+  },
+  {
+    title: "Direção visual",
+    text: "Uma linguagem própria para o negócio, aplicada sem tema pronto ou componentes genéricos.",
+  },
+  {
+    title: "Desenvolvimento",
+    text: "Código responsivo, acessível e preparado para carregar rápido em celular e desktop.",
+  },
+  {
+    title: "Publicação e busca",
+    text: "Metadados, compartilhamento, estrutura semântica e os detalhes técnicos para colocar o site no ar.",
+  },
 ] as const;

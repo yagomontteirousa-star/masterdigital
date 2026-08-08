@@ -1,114 +1,100 @@
-import { heroPrimarySet, heroSecondarySet } from "@/data/projects";
-import { segmentsServed, whatsappHref } from "@/data/site";
+import Image from "next/image";
+import { capabilities, processSteps, whatsappHref } from "@/data/site";
 import { ButtonLink } from "@/components/ui/Button";
-import { HeroComposition } from "./HeroComposition";
-import { Reveal } from "@/components/ui/Reveal";
-import { SectionRule } from "@/components/ui/SectionRule";
 import { ArrowRight, WhatsAppIcon } from "@/components/ui/Icons";
 
 export function Hero() {
   return (
-    <section id="top" className="relative overflow-hidden pt-24 pb-16 md:pt-28 lg:pt-32 lg:pb-24">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-        {/* Lavagem quente no canto superior direito. */}
-        <div className="absolute -top-56 -right-40 size-[44rem] rounded-full bg-accent-soft opacity-80 blur-[120px]" />
-
-        {/* Colunas-guia: recurso de direção de arte editorial. Somem para baixo
-            com uma máscara, para não virar grade de wireframe. */}
-        <div className="absolute inset-0">
-          <div className="shell h-full">
-            <div
-              className="grid h-full grid-cols-2 border-r border-line/70 md:grid-cols-4 lg:grid-cols-6"
-              style={{
-                maskImage: "linear-gradient(to bottom, #000 35%, transparent 92%)",
-                WebkitMaskImage: "linear-gradient(to bottom, #000 35%, transparent 92%)",
-              }}
-            >
-              {/* Número de filhos precisa bater com o de colunas em cada
-                  breakpoint, senão a grade cria linhas extras. */}
-              {["", "", "hidden md:block", "hidden md:block", "hidden lg:block", "hidden lg:block"].map(
-                (visibility, index) => (
-                  <div key={index} className={`border-l border-line/70 ${visibility}`} />
-                ),
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="shell grid items-center gap-y-12 lg:grid-cols-12 lg:gap-x-14">
-        {/* ---------- Copy ---------- */}
-        <div className="lg:col-span-6">
-          <Reveal y={12}>
-            <SectionRule />
-          </Reveal>
-
-          <Reveal delay={0.06} variant="mask">
-            <h1 className="display mt-7 text-[clamp(2.75rem,7.4vw,4.75rem)] text-balance">
-              <span className="text-ink-400">Seu site é a primeira impressão.</span>{" "}
-              <em className="text-ink">Faça ela fechar negócio.</em>
+    <section id="top" className="bg-night py-12 text-chalk md:py-16 lg:py-20">
+      <div className="shell">
+        <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-14">
+          <div className="lg:col-span-7">
+            <h1 className="display max-w-[12ch] text-[clamp(3rem,6vw,5.4rem)] text-balance">
+              Seu site precisa gerar confiança antes da primeira conversa.
             </h1>
-          </Reveal>
 
-          <Reveal delay={0.12}>
-            <p className="mt-6 max-w-lg text-lg leading-relaxed text-ink-600">
-              Sites sob medida para empresas que precisam passar credibilidade e receber
-              contato direto no WhatsApp.
+            <p className="mt-7 max-w-2xl text-lg leading-8 text-muted md:text-xl md:leading-9">
+              Eu reúno estratégia, texto, direção visual e desenvolvimento para
+              apresentar seu negócio com clareza, transmitir credibilidade e levar o
+              visitante ao contato.
             </p>
-          </Reveal>
 
-          <Reveal delay={0.18}>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <ButtonLink
                 href={whatsappHref}
                 external
                 size="lg"
                 leading={<WhatsAppIcon className="size-4" />}
               >
-                Pedir orçamento
+                Falar no WhatsApp
               </ButtonLink>
               <ButtonLink
                 href="#projetos"
                 variant="outline"
                 size="lg"
-                trailing={<ArrowRight className="size-3.5" />}
+                trailing={<ArrowRight className="size-4" />}
               >
                 Ver projetos
               </ButtonLink>
             </div>
-          </Reveal>
 
-          <Reveal delay={0.24}>
-            <div className="mt-10 max-w-xl">
-              <div className="hairline" />
-              <p className="sr-only">Setores atendidos</p>
-              <ul className="mt-4 flex flex-wrap gap-x-3 gap-y-1 text-sm text-ink-400">
-                {segmentsServed.map((segment) => (
-                  <li
-                    key={segment}
-                    /* Separador depois do item: se a linha quebrar, nunca sobra
-                       um "·" órfão no início da linha seguinte. */
-                    className="after:ml-3 after:text-line-strong after:content-['·'] last:after:content-none"
-                  >
-                    {segment}
-                  </li>
-                ))}
-              </ul>
+            <ul className="mt-10 grid max-w-2xl gap-3 border-t border-line pt-5 text-sm text-muted sm:grid-cols-3">
+              <li>Mensagem clara</li>
+              <li>Design sob medida</li>
+              <li>Contato sem atrito</li>
+            </ul>
+          </div>
+
+          <div className="relative overflow-hidden rounded-xl bg-light p-7 text-light-ink sm:p-9 lg:col-span-5">
+            <div className="flex items-start justify-between gap-6 border-b border-line-light pb-7">
+              <h2 className="display max-w-[11ch] text-[clamp(2rem,3.6vw,3rem)]">
+                Uma direção única, do posicionamento ao site no ar.
+              </h2>
+              <Image
+                src="/brand/master-digital-symbol-orange.svg"
+                alt=""
+                width={512}
+                height={512}
+                className="size-9 shrink-0"
+              />
             </div>
-          </Reveal>
+
+            <ul>
+              {capabilities.map((capability) => (
+                <li
+                  key={capability.title}
+                  className="grid gap-2 border-b border-line-light py-4 sm:grid-cols-[9rem_1fr]"
+                >
+                  <h3 className="text-sm font-bold">{capability.title}</h3>
+                  <p className="text-sm leading-6 text-ink-600">{capability.text}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
-        {/* ---------- Composição de previews que se alternam ---------- */}
-        <div className="lg:col-span-6">
-          <HeroComposition primary={heroPrimarySet} secondary={heroSecondarySet} />
-
-          <Reveal delay={0.36}>
-            {/* Sem o preview secundário no mobile, o respiro extra vira buraco. */}
-            <p className="mt-6 text-right text-xs tracking-wide text-ink-400 sm:mt-24">
-              Capturas reais dos sites publicados
-            </p>
-          </Reveal>
-        </div>
+        <ol className="mt-12 grid border-y border-line md:grid-cols-3 lg:mt-16">
+          {processSteps.map((step, index) => (
+            <li
+              key={step.number}
+              className="flex items-center gap-4 border-b border-line py-4 last:border-b-0 md:border-r md:border-b-0 md:px-6 md:first:pl-0 md:last:border-r-0"
+            >
+              <span className="text-xs font-semibold text-accent" aria-hidden="true">
+                {step.number}
+              </span>
+              <div>
+                <h2 className="text-sm font-bold text-chalk">{step.title}</h2>
+                <p className="mt-1 text-xs leading-5 text-muted">
+                  {index === 0
+                    ? "Mensagem e estrutura"
+                    : index === 1
+                      ? "Design e desenvolvimento"
+                      : "Testes e publicação"}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );

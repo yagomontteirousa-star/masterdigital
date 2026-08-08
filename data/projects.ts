@@ -5,7 +5,7 @@
  *  1. gere o preview em /public/projects/<slug>.jpg
  *     (rode `node scripts/capture-previews.mjs` depois de incluir o site em TARGETS);
  *  2. copie um bloco abaixo e preencha os campos;
- *  3. marque `featured: true` apenas nos melhores — eles ganham o layout grande.
+ *  3. marque `featured: true` apenas nos melhores — eles alimentam o hero.
  *
  * A ordem do array e a ordem exibida na home.
  */
@@ -17,14 +17,11 @@ export interface Project {
   slug: string;
   /** Nome do cliente / projeto. */
   name: string;
-  /** Segmento de atuacao — aparece como eyebrow no card. */
+  /** Segmento de atuação exibido acima do nome. */
   segment: string;
-  /** Descricao curta — uma linha. E o unico texto corrido do card. */
+  /** Descrição curta do projeto. */
   description: string;
-  /**
-   * Desafio ou objetivo. NAO e exibido no card hoje (o card ficou proposital-
-   * mente enxuto). Mantido para uso em uma futura pagina de case.
-   */
+  /** Desafio ou objetivo comercial exibido no projeto. */
   objective: string;
   /** Principais entregas. O card mostra apenas as 3 primeiras. */
   deliverables: string[];
@@ -35,7 +32,7 @@ export interface Project {
   /** URL ao vivo. Use `null` enquanto o site nao estiver publicado. */
   url: string | null;
   category: ProjectCategory;
-  /** Destaque: ocupa a largura total com layout editorial. */
+  /** Destaque: pode aparecer na composição do hero. */
   featured: boolean;
   /** Ano de entrega. Opcional. */
   year?: string;
@@ -160,18 +157,6 @@ export const projects: Project[] = [
   },
 ];
 
-/** Categorias existentes, derivadas dos projetos — nao precisa manter lista paralela. */
-export const projectCategories = [
-  "Todos",
-  ...Array.from(new Set(projects.map((project) => project.category))),
-] as const;
-
-export type ProjectFilter = (typeof projectCategories)[number];
-
-/**
- * Previews que se alternam na composicao do hero.
- * O balao grande cicla os destaques; o pequeno cicla os demais.
- * Cada lista precisa de pelo menos 1 item — com 1 so, nao ha troca.
- */
+/** Recortes usados na composição editorial do hero. */
 export const heroPrimarySet = projects.filter((project) => project.featured);
 export const heroSecondarySet = projects.filter((project) => !project.featured);

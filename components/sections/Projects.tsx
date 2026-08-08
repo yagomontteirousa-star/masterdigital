@@ -1,88 +1,29 @@
-"use client";
-
-import { useMemo, useState } from "react";
-import { motion } from "framer-motion";
-import { projectCategories, projects, type ProjectFilter } from "@/data/projects";
-import { ProjectCarousel } from "@/components/ui/ProjectCarousel";
-import { Reveal } from "@/components/ui/Reveal";
-import { SectionRule } from "@/components/ui/SectionRule";
-import { cn } from "@/lib/cn";
+import { projects, type Project } from "@/data/projects";
+import { ProjectCard } from "@/components/ui/ProjectCard";
 
 export function Projects() {
-  const [filter, setFilter] = useState<ProjectFilter>("Todos");
-
-  const visible = useMemo(
-    () =>
-      filter === "Todos"
-        ? projects
-        : projects.filter((project) => project.category === filter),
-    [filter],
+  const published = projects.filter(
+    (project): project is Project & { url: string } => Boolean(project.url),
   );
 
   return (
-    <section id="projetos" className="section-y border-t border-line">
+    <section id="projetos" className="section-y bg-light text-light-ink">
       <div className="shell">
-        {/* ---------- Cabeçalho da seção ---------- */}
-        <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-          <Reveal className="max-w-2xl">
-            <SectionRule />
-            <h2 className="display mt-7 text-[clamp(2.25rem,5.2vw,3.75rem)] text-balance">
-              Sites no ar, feitos para{" "}
-              <em className="text-accent-deep">empresas de verdade.</em>
-            </h2>
-            <p className="mt-4 text-ink-600">
-              Capturas reais dos sites. Arraste para o lado.
-            </p>
-          </Reveal>
-
-          {/* ---------- Filtros ---------- */}
-          <Reveal delay={0.1}>
-            <div
-              role="group"
-              aria-label="Filtrar projetos por categoria"
-              className="flex flex-wrap gap-2"
-            >
-              {projectCategories.map((category) => {
-                const active = filter === category;
-                return (
-                  <button
-                    key={category}
-                    type="button"
-                    onClick={() => setFilter(category)}
-                    aria-pressed={active}
-                    className={cn(
-                      "relative h-9 rounded-full border px-4 text-sm transition-colors duration-300",
-                      active
-                        ? "border-ink text-paper"
-                        : "border-line-strong text-ink-600 hover:border-ink hover:text-ink",
-                    )}
-                  >
-                    {/* `layoutId` faz a pílula escura deslizar entre os filtros
-                        em vez de piscar de um para o outro. */}
-                    {active ? (
-                      <motion.span
-                        layoutId="filtro-ativo"
-                        className="absolute inset-0 rounded-full bg-ink"
-                        transition={{ type: "spring", stiffness: 420, damping: 38 }}
-                      />
-                    ) : null}
-                    <span className="relative">{category}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </Reveal>
+        <div className="grid gap-6 md:grid-cols-12 md:items-end">
+          <h2 className="display text-[clamp(2.5rem,5vw,4.5rem)] md:col-span-7">
+            Projetos publicados.
+          </h2>
+          <p className="max-w-lg text-base leading-7 text-ink-600 md:col-span-5 md:justify-self-end">
+            Quatro entregas reais, em segmentos diferentes, com a mesma prioridade:
+            deixar o negócio claro e facilitar o próximo contato.
+          </p>
         </div>
 
-        <Reveal delay={0.12} className="mt-12">
-          {visible.length > 0 ? (
-            <ProjectCarousel projects={visible} resetKey={filter} />
-          ) : (
-            <p className="py-16 text-center text-ink-400">
-              Nenhum projeto nesta categoria ainda.
-            </p>
-          )}
-        </Reveal>
+        <div className="mt-12 grid gap-x-7 gap-y-12 md:mt-16 md:grid-cols-2">
+          {published.map((project, index) => (
+            <ProjectCard key={project.slug} project={project} priority={index < 2} />
+          ))}
+        </div>
       </div>
     </section>
   );

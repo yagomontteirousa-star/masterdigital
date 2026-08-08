@@ -1,57 +1,35 @@
-import { processSteps } from "@/data/site";
-import { Reveal } from "@/components/ui/Reveal";
-import { SectionRule } from "@/components/ui/SectionRule";
+import { capabilities } from "@/data/site";
 
 export function Process() {
   return (
-    <section id="processo" className="section-y relative overflow-hidden bg-ink">
-      {/* Brilho quente no canto, mesma linguagem do bloco de orçamento. */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-72 -left-40 size-[40rem] animate-drift rounded-full bg-accent/10 blur-[130px]" />
-      </div>
-
-      <div className="shell relative">
-        <Reveal className="max-w-2xl">
-          <SectionRule />
-          <h2 className="display mt-7 text-[clamp(2.25rem,5.2vw,3.75rem)] text-paper text-balance">
-            Três etapas. <em className="text-paper/50">Nenhuma surpresa.</em>
+    <section id="processo" className="section-y bg-night text-chalk">
+      <div className="shell grid gap-12 lg:grid-cols-12 lg:gap-16">
+        <div className="lg:col-span-5">
+          <h2 className="display max-w-[11ch] text-[clamp(2.6rem,5vw,4.5rem)]">
+            Uma pessoa conduz tudo.
           </h2>
-        </Reveal>
-
-        {/* Três colunas iguais lado a lado é o layout mais genérico que existe.
-            O degrau vertical crescente quebra a simetria sem custar altura. */}
-        <div className="mt-14 grid gap-x-10 gap-y-12 md:grid-cols-3">
-          {processSteps.map((step, index) => (
-            <Reveal
-              key={step.number}
-              delay={index * 0.1}
-              className={["", "md:mt-10", "md:mt-20"][index]}
-            >
-              <div className="relative flex flex-col overflow-hidden pt-7">
-                {/* Régua superior: trecho laranja seguido da linha neutra. */}
-                <span aria-hidden="true" className="absolute inset-x-0 top-0 h-px bg-paper/15" />
-                <span aria-hidden="true" className="absolute top-0 left-0 h-px w-14 bg-accent" />
-
-                {/* Numeral fantasma — dá profundidade sem virar decoração vazia. */}
-                <span
-                  aria-hidden="true"
-                  className="display pointer-events-none absolute -top-4 right-0 text-[6.5rem] leading-none text-paper/[0.045] select-none"
-                >
-                  {step.number}
-                </span>
-
-                <span className="display relative block text-3xl text-accent">
-                  {step.number}
-                </span>
-                <h3 className="display relative mt-5 text-[clamp(1.75rem,3vw,2.25rem)] text-paper">
-                  {step.title}
-                </h3>
-                <p className="relative mt-4 leading-relaxed text-paper/65">{step.text}</p>
-                <p className="eyebrow relative mt-6 text-paper/60">{step.detail}</p>
-              </div>
-            </Reveal>
-          ))}
+          <p className="mt-6 max-w-lg text-lg leading-8 text-muted">
+            Da primeira conversa ao site publicado, você fala comigo. Isso mantém
+            estratégia, texto, visual e código seguindo a mesma direção.
+          </p>
+          <p className="mt-6 text-sm font-semibold text-chalk">
+            Yago Monteiro · Master Digital
+          </p>
         </div>
+
+        <ul className="grid border-t border-line sm:grid-cols-2 lg:col-span-7">
+          {capabilities.map((capability, index) => (
+            <li
+              key={capability.title}
+              className={`border-b border-line py-6 sm:min-h-44 ${
+                index % 2 === 0 ? "sm:border-r sm:pr-7" : "sm:pl-7"
+              }`}
+            >
+              <h3 className="text-base font-bold text-chalk">{capability.title}</h3>
+              <p className="mt-3 text-sm leading-6 text-muted">{capability.text}</p>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

@@ -1,63 +1,60 @@
 # Portfólio — Yago Monteiro · Master Digital
 
-Portfólio de criação de sites. Next.js 15 (App Router) + TypeScript + React 19,
-Tailwind v4 e Framer Motion. Site estático, sem backend, banco de dados ou painel.
+Portfólio comercial em Next.js 15 (App Router), TypeScript, React 19 e Tailwind CSS 4.
+O site é estático e não depende de backend, banco de dados ou painel.
 
 ## Comandos
 
 ```bash
 npm install
 npm run dev        # http://localhost:3000
-npm run build      # build de produção
+npm run lint       # ESLint + regras oficiais do Next.js
 npm run typecheck  # verificação de tipos
+npm run build      # build de produção
 ```
 
-## Onde editar cada coisa
+## Onde editar
 
-| O quê | Arquivo |
+| Conteúdo | Arquivo |
 | --- | --- |
-| Projetos do portfólio | `data/projects.ts` |
-| Nome, WhatsApp, e-mail, menu, processo, sobre | `data/site.ts` |
-| Metadados, título, Open Graph | `app/layout.tsx` |
-| Cores, tipografia, espaçamentos | `app/globals.css` (bloco `@theme`) |
+| Projetos, imagens e URLs | `data/projects.ts` |
+| Nome, WhatsApp, e-mail, processo e serviços | `data/site.ts` |
+| Títulos, descrição e dados estruturados | `app/layout.tsx` |
+| Cores, tipografia e sistema visual | `app/globals.css` |
+| Princípios do design | `DESIGN.md` |
 
-Nenhum texto, link ou dado de projeto fica dentro dos componentes.
+## Antes de publicar
 
-## Substituir antes de publicar
+1. Defina `NEXT_PUBLIC_SITE_URL` no ambiente da hospedagem com o domínio final, sem
+   barra no fim. O projeto mantém canonical, sitemap e indexação desativados enquanto
+   esse valor não existir; veja `.env.example`.
+2. Quando Master Sonorização e Beltrame Acessórios forem publicados, preencha os
+   respectivos campos `url` em `data/projects.ts`.
+3. Caso uma seção de retrato seja adicionada no futuro, use uma foto real do Yago como
+   base para a montagem de estúdio. Não publique imagem sintética como retrato real.
 
-1. **WhatsApp** — `data/site.ts` → `whatsappNumber` está com um placeholder
-   (`5500000000000`). Coloque o número real com DDI + DDD, só dígitos.
-2. **Domínio** — `data/site.ts` → `url`. Usado em metadata, canonical, sitemap e robots.
-3. **Foto do Sobre** — salve em `public/about/retrato.jpg` (proporção 4:5) e troque o
-   bloco de placeholder em `components/sections/About.tsx` (as instruções estão no
-   comentário, ali mesmo).
-4. **URLs ao vivo** de Master Sonorização e Beltrame Acessórios — `data/projects.ts`,
-   campo `url` (hoje `null`, o card mostra "Sem link público no momento").
+O WhatsApp de produção já está configurado: `+1 774 249 8958`.
 
 ## Previews dos projetos
 
-As capas em `public/projects/` são screenshots reais dos sites, geradas por:
+As capas em `public/projects/` são capturas reais. Para atualizá-las:
 
 ```bash
 node scripts/capture-previews.mjs
 ```
 
-O script usa o Chrome já instalado (via `puppeteer-core`, dependência de
-desenvolvimento — não vai para o bundle). Ele captura o site publicado quando há URL e
-cai para o arquivo local quando não há. Também regera `public/og.jpg`.
-
-Para adicionar um projeto: inclua a entrada em `TARGETS` no script, rode o comando e
-depois adicione o objeto em `data/projects.ts`.
+O script usa `puppeteer-core`, captura a URL publicada quando ela existe e usa o arquivo
+local nos projetos ainda em desenvolvimento.
 
 ## Estrutura
 
-```
-app/            layout, página, robots, sitemap, favicon
+```text
+app/            layout, página, robots, sitemap, Open Graph
 components/
   layout/       Header, Footer, Brand
-  sections/     Hero, Projects, Process, About, FinalCta
-  ui/           Button, SitePreview, ProjectCard, Reveal, Icons
-data/           projects.ts, site.ts   <- conteúdo
+  sections/     Hero, Projects, Process, FinalCta
+  ui/           Button, ProjectCard, Icons
+data/           projetos e conteúdo global
 lib/            utilitários
 scripts/        geração dos previews
 ```
