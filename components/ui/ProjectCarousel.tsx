@@ -15,21 +15,29 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
   const startLoopRef = useRef<() => void>(() => undefined);
   const stopLoopRef = useRef<() => void>(() => undefined);
   const paintRef = useRef<() => void>(() => undefined);
+  const queuePaintRef = useRef<() => void>(() => undefined);
   const resumeTimerRef = useRef<number | null>(null);
+  const dragPaintFrameRef = useRef<number | null>(null);
   const dragRef = useRef({
     active: false,
+    started: false,
     pointerId: -1,
     startX: 0,
     startPosition: 0,
     moved: 0,
-    trigger: null as HTMLButtonElement | null,
-    projectSlug: null as string | null,
   });
   const resumeAtRef = useRef(0);
   const focusWithinRef = useRef(false);
   const visibleRef = useRef(true);
-  const suppressClickRef = useRef(false);
+  const suppressClickUntilRef = useRef(0);
+  const dialogRef = useRef<HTMLDialogElement>(null);
   const [dragging, setDragging] = useState(false);
+  const [pendingProject, setPendingProject] = useState<PublishedProject | null>(null);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (pendingProject && dialog && !dialog.open) dialog.showModal();
+  }, [pendingProject]);
 
   useEffect(() => {
     const viewport = viewportRef.current;
@@ -47,6 +55,14 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
         positionRef.current = ((positionRef.current % width) + width) % width;
       }
       track.style.transform = `translate3d(${-positionRef.current}px, 0, 0)`;
+    };
+
+    const queuePaint = () => {
+      if (dragPaintFrameRef.current !== null) return;
+      dragPaintFrameRef.current = requestAnimationFrame(() => {
+        dragPaintFrameRef.current = null;
+        paint();
+      });
     };
 
     const canRun = () =>
@@ -94,6 +110,7 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
     startLoopRef.current = start;
     stopLoopRef.current = stop;
     paintRef.current = paint;
+    queuePaintRef.current = queuePaint;
 
     const resize = new ResizeObserver(() => {
       segmentWidthRef.current = group.offsetWidth;
@@ -131,6 +148,10 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
         window.clearTimeout(resumeTimerRef.current);
         resumeTimerRef.current = null;
       }
+      if (dragPaintFrameRef.current !== null) {
+        cancelAnimationFrame(dragPaintFrameRef.current);
+        dragPaintFrameRef.current = null;
+      }
       resize.disconnect();
       intersection.disconnect();
       document.removeEventListener("visibilitychange", handleVisibility);
@@ -138,6 +159,7 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
       startLoopRef.current = () => undefined;
       stopLoopRef.current = () => undefined;
       paintRef.current = () => undefined;
+      queuePaintRef.current = () => undefined;
     };
   }, []);
 
@@ -150,29 +172,38 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
     }, delay);
   };
 
-  const openProject = (project: PublishedProject) => {
-    window.open(project.url, "_blank", "noopener,noreferrer");
-    scheduleResume(900);
+  const requestProjectVisit = (project: PublishedProject) => {
+    stopLoopRef.current();
+    if (resumeTimerRef.current !== null) {
+      window.clearTimeout(resumeTimerRef.current);
+      resumeTimerRef.current = null;
+    }
+    setPendingProject(project);
+  };
+
+  const closeVisitDialog = () => {
+    dialogRef.current?.close();
+  };
+
+  const confirmProjectVisit = () => {
+    if (!pendingProject) return;
+    window.open(pendingProject.url, "_blank", "noopener,noreferrer");
+    closeVisitDialog();
   };
 
   const finishDrag = (event: React.PointerEvent<HTMLDivElement>) => {
     const drag = dragRef.current;
     if (!drag.active || drag.pointerId !== event.pointerId) return;
 
-    const tappedProject = event.type === "pointerup" && drag.moved <= 7
-      ? projects.find((project) => project.slug === drag.projectSlug)
-      : undefined;
+    const didDrag = drag.started || drag.moved > 7;
     drag.active = false;
+    drag.started = false;
     setDragging(false);
-    suppressClickRef.current = drag.moved > 7 || Boolean(tappedProject);
+    if (didDrag) suppressClickUntilRef.current = performance.now() + 320;
     if (event.currentTarget.hasPointerCapture(event.pointerId)) {
       event.currentTarget.releasePointerCapture(event.pointerId);
     }
-    if (tappedProject) {
-      openProject(tappedProject);
-      return;
-    }
-    scheduleResume(1100);
+    scheduleResume(didDrag ? 1100 : 700);
   };
 
   const beginDrag = (event: React.PointerEvent<HTMLDivElement>) => {
@@ -182,15 +213,13 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
       window.clearTimeout(resumeTimerRef.current);
       resumeTimerRef.current = null;
     }
-    const trigger = (event.target as HTMLElement).closest<HTMLButtonElement>("button[data-project-slug]");
     dragRef.current = {
       active: true,
+      started: false,
       pointerId: event.pointerId,
       startX: event.clientX,
       startPosition: positionRef.current,
       moved: 0,
-      trigger,
-      projectSlug: trigger?.dataset.projectSlug ?? null,
     };
   };
 
@@ -220,22 +249,24 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
           if (!drag.active || drag.pointerId !== event.pointerId) return;
           const delta = event.clientX - drag.startX;
           drag.moved = Math.abs(delta);
-          if (drag.moved <= 5) return;
-          if (!event.currentTarget.hasPointerCapture(event.pointerId)) {
+          if (drag.moved <= 7) return;
+          event.preventDefault();
+          if (!drag.started) {
+            drag.started = true;
             event.currentTarget.setPointerCapture(event.pointerId);
+            setDragging(true);
           }
-          setDragging(true);
           positionRef.current = drag.startPosition - delta;
-          paintRef.current();
+          queuePaintRef.current();
         }}
         onPointerUp={finishDrag}
         onPointerCancel={finishDrag}
         onLostPointerCapture={finishDrag}
         onClickCapture={(event) => {
-          if (!suppressClickRef.current) return;
+          if (performance.now() > suppressClickUntilRef.current) return;
           event.preventDefault();
           event.stopPropagation();
-          suppressClickRef.current = false;
+          suppressClickUntilRef.current = 0;
         }}
         onDragStart={(event) => event.preventDefault()}
         onFocusCapture={(event) => {
@@ -266,16 +297,53 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
         <div ref={trackRef} className="project-carousel__track">
           <div ref={groupRef} className="project-carousel__group">
             {projects.map((project) => (
-              <ProjectCard key={project.slug} project={project} onVisit={openProject} />
+              <ProjectCard key={project.slug} project={project} onVisit={requestProjectVisit} />
             ))}
           </div>
           <div className="project-carousel__group" aria-hidden="true">
             {projects.map((project) => (
-              <ProjectCard key={`duplicate-${project.slug}`} project={project} duplicate onVisit={openProject} />
+              <ProjectCard key={`duplicate-${project.slug}`} project={project} duplicate onVisit={requestProjectVisit} />
             ))}
           </div>
         </div>
       </div>
+
+      <dialog
+        ref={dialogRef}
+        className="project-visit-dialog"
+        aria-labelledby="project-visit-title"
+        aria-describedby="project-visit-description"
+        onCancel={(event) => {
+          event.preventDefault();
+          closeVisitDialog();
+        }}
+        onClose={() => {
+          setPendingProject(null);
+          scheduleResume(700);
+        }}
+      >
+        {pendingProject ? (
+          <div className="project-visit-dialog__surface">
+            <p className="project-visit-dialog__domain">
+              {pendingProject.url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}
+            </p>
+            <h3 id="project-visit-title" className="display">
+              Quer visitar este site?
+            </h3>
+            <p id="project-visit-description">
+              Você será levado para o site de {pendingProject.name} em uma nova aba.
+            </p>
+            <div className="project-visit-dialog__actions">
+              <button type="button" className="project-visit-dialog__cancel" onClick={closeVisitDialog} autoFocus>
+                Continuar aqui
+              </button>
+              <button type="button" className="project-visit-dialog__confirm" onClick={confirmProjectVisit}>
+                Visitar site
+              </button>
+            </div>
+          </div>
+        ) : null}
+      </dialog>
     </div>
   );
 }

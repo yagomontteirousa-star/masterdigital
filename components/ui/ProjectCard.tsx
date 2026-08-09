@@ -12,15 +12,26 @@ type ProjectCardProps = {
 };
 
 export function ProjectCard({ project, priority = false, duplicate = false, onVisit }: ProjectCardProps) {
+  const visit = () => onVisit(project);
+
   return (
-    <article className="project-tile group" aria-hidden={duplicate || undefined}>
-      <button
-        type="button"
-        onClick={() => onVisit(project)}
-        className="project-tile__visit-trigger block w-full rounded-[0.875rem] text-left focus-visible:outline-offset-8"
+    <article
+      className="project-tile group"
+      aria-hidden={duplicate || undefined}
+      aria-label={`Ver o site ${project.name}`}
+      data-project-slug={project.slug}
+      onClick={visit}
+      onKeyDown={(event) => {
+        if (duplicate || (event.key !== "Enter" && event.key !== " ")) return;
+        event.preventDefault();
+        visit();
+      }}
+      role={duplicate ? undefined : "button"}
+      tabIndex={duplicate ? -1 : 0}
+    >
+      <div
+        className="project-tile__visit-trigger block w-full rounded-[0.875rem] text-left"
         aria-label={`Ver o site ${project.name}`}
-        data-project-slug={project.slug}
-        tabIndex={duplicate ? -1 : undefined}
       >
         <BrowserFrame
           src={project.cover}
@@ -34,7 +45,7 @@ export function ProjectCard({ project, priority = false, duplicate = false, onVi
           <span>Clique para visitar</span>
           <ArrowUpRight className="size-4" />
         </span>
-      </button>
+      </div>
 
       <div className="mt-5 flex items-start justify-between gap-5 border-t border-line-light pt-5">
         <div>
@@ -52,16 +63,12 @@ export function ProjectCard({ project, priority = false, duplicate = false, onVi
           <h3 className="display mt-2 text-[clamp(2rem,3vw,2.75rem)]">{project.name}</h3>
           <p className="mt-3 max-w-xl text-sm leading-6 text-ink-600">{project.description}</p>
         </div>
-        <button
-          type="button"
-          onClick={() => onVisit(project)}
+        <span
           className="grid size-11 shrink-0 place-items-center rounded-full border border-line-strong transition-colors duration-200 hover:border-ink hover:bg-ink hover:text-chalk"
-          aria-label={`Ver o site ${project.name}`}
-          data-project-slug={project.slug}
-          tabIndex={duplicate ? -1 : undefined}
+          aria-hidden="true"
         >
           <ArrowUpRight className="size-4" />
-        </button>
+        </span>
       </div>
     </article>
   );

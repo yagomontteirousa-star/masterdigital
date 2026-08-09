@@ -121,7 +121,7 @@ export const projects: Project[] = [
     ],
     cover: "/projects/gustavo-san.jpg",
     coverAlt: "Página inicial do portfólio de Gustavo San",
-    url: "https://portfoliogustavosan.vercel.app/",
+    url: "https://gustavosan.com/",
     category: "Portfólio",
     featured: false,
   },

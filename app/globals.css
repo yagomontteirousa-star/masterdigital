@@ -36,8 +36,11 @@
   }
 
   html {
+    width: 100%;
     min-width: 320px;
-    overflow-x: clip;
+    max-width: 100%;
+    overflow-x: hidden;
+    overscroll-behavior-x: none;
     scroll-behavior: smooth;
     scrollbar-color: var(--color-ink-400) var(--color-light);
     scrollbar-width: thin;
@@ -45,9 +48,13 @@
   }
 
   body {
+    position: relative;
+    width: 100%;
     min-width: 320px;
+    max-width: 100%;
     margin: 0;
-    overflow-x: clip;
+    overflow-x: hidden;
+    overscroll-behavior-x: none;
     background: var(--color-light);
     color: var(--color-ink);
     font-family: var(--font-sans);
@@ -226,7 +233,7 @@
     contain: paint;
     height: 100svh;
     min-height: 0;
-    overflow: clip;
+    overflow: hidden;
   }
 
   .site-header {
@@ -818,7 +825,8 @@
     overflow: hidden;
     padding-block: 1.75rem 0.5rem;
     cursor: grab;
-    touch-action: pan-y;
+    overscroll-behavior-inline: contain;
+    touch-action: pan-y pinch-zoom;
     user-select: none;
   }
 
@@ -838,6 +846,8 @@
   .project-carousel__track {
     display: flex;
     width: max-content;
+    backface-visibility: hidden;
+    transform: translate3d(0, 0, 0);
     will-change: transform;
   }
 
@@ -857,6 +867,21 @@
     position: relative;
     overflow: hidden;
     cursor: pointer;
+  }
+
+  .project-tile:focus-visible {
+    border-radius: 0.875rem;
+    outline: 2px solid var(--color-accent);
+    outline-offset: 8px;
+  }
+
+  .project-carousel__viewport[data-dragging="true"] .project-tile,
+  .project-carousel__viewport[data-dragging="true"] .project-tile__image {
+    transition: none;
+  }
+
+  .project-carousel__viewport[data-dragging="true"] .project-tile:hover {
+    transform: none;
   }
 
   .project-tile__visit-prompt {
@@ -900,6 +925,98 @@
 
   .project-carousel .browser-frame {
     box-shadow: 0 24px 54px -34px rgb(23 23 20 / 0.38), 12px 18px 34px -34px rgb(255 90 0 / 0.14);
+  }
+
+  .project-visit-dialog {
+    position: fixed;
+    inset: 50% auto auto 50%;
+    width: min(calc(100% - 2rem), 31rem);
+    max-height: calc(100dvh - 2rem);
+    max-width: none;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border: 0;
+    border-radius: 1rem;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    color: var(--color-ink);
+    transform: translate(-50%, -50%);
+  }
+
+  .project-visit-dialog::backdrop {
+    background: rgb(23 23 20 / 0.66);
+    backdrop-filter: blur(6px);
+  }
+
+  .project-visit-dialog__surface {
+    border: 1px solid rgb(255 255 255 / 0.58);
+    border-radius: 1rem;
+    background: #fbf8f1;
+    padding: clamp(1.35rem, 5vw, 2rem);
+    box-shadow: 0 30px 80px -32px rgb(0 0 0 / 0.58);
+  }
+
+  .project-visit-dialog__domain {
+    color: var(--color-accent-dark);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    overflow-wrap: anywhere;
+    text-transform: uppercase;
+  }
+
+  .project-visit-dialog h3 {
+    margin-top: 0.75rem;
+    font-size: clamp(2.25rem, 10vw, 3.5rem);
+    line-height: 0.94;
+  }
+
+  .project-visit-dialog__surface > p:last-of-type {
+    max-width: 36ch;
+    margin-top: 1rem;
+    color: var(--color-ink-600);
+    font-size: 0.9375rem;
+    line-height: 1.65;
+  }
+
+  .project-visit-dialog__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.65rem;
+    margin-top: 1.5rem;
+  }
+
+  .project-visit-dialog__actions button {
+    min-height: 3rem;
+    border-radius: 999px;
+    padding-inline: 1rem;
+    font-size: 0.8125rem;
+    font-weight: 800;
+    transition: background-color 180ms ease-out, color 180ms ease-out, transform 180ms ease-out;
+  }
+
+  .project-visit-dialog__cancel {
+    border: 1px solid var(--color-line-strong);
+  }
+
+  .project-visit-dialog__confirm {
+    border: 1px solid var(--color-ink);
+    background: var(--color-ink);
+    color: var(--color-chalk);
+  }
+
+  .project-visit-dialog__actions button:hover {
+    transform: translateY(-1px);
+  }
+
+  .project-visit-dialog__cancel:hover {
+    background: white;
+  }
+
+  .project-visit-dialog__confirm:hover {
+    border-color: var(--color-accent-dark);
+    background: var(--color-accent-dark);
   }
 
   .projects-section {

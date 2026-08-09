@@ -28,7 +28,7 @@ const TARGETS = [
   { slug: "vilela-turismo", url: "https://vilelaturismo.com/", file: "vilela-turismo-repo/index.html" },
   { slug: "al-the-painter", url: "https://althepainterllc.vercel.app/", file: "althepainterllc/index.html" },
   { slug: "camilas-cleaning", url: "https://camilascleaning.vercel.app/", file: "camilascleaning/index.html" },
-  { slug: "gustavo-san", url: "https://portfoliogustavosan.vercel.app/", file: "gustavosan/index.html" },
+  { slug: "gustavo-san", url: "https://gustavosan.com/", file: "gustavosan/index.html" },
   { slug: "master-sonorizacao", url: "https://sitemastersom.vercel.app/", file: "mastersonorizacao/index.html" },
   { slug: "beltrame-acessorios", url: "https://beltrameacess.vercel.app/", file: "beltrameacess/index.html" },
 ];
