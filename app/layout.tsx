@@ -19,13 +19,15 @@ const sans = Manrope({
   variable: "--font-sans-face",
 });
 
-const title = `${site.name} — Sites sob medida para empresas`;
+const deploymentUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null;
+const publicUrl = site.url ?? deploymentUrl;
+const title = `${site.studio} — Sites sob medida para empresas`;
 const description =
-  "Estratégia, texto, direção visual e desenvolvimento de sites para empresas que precisam transmitir credibilidade e gerar novas conversas.";
-const hasCanonicalUrl = Boolean(site.url);
+  "Sites sob medida para empresas que precisam apresentar bem o que fazem, transmitir confiança e transformar visitas em novas conversas.";
+const hasCanonicalUrl = Boolean(publicUrl);
 
 export const metadata: Metadata = {
-  metadataBase: new URL(site.url ?? "http://localhost:3000"),
+  metadataBase: new URL(publicUrl ?? "http://localhost:3000"),
   title: {
     default: title,
     template: `%s — ${site.name}`,
@@ -37,8 +39,8 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "pt_BR",
-    ...(site.url ? { url: site.url } : {}),
-    siteName: `${site.name} · ${site.studio}`,
+    ...(publicUrl ? { url: publicUrl } : {}),
+    siteName: site.studio,
     title,
     description,
     ...(hasCanonicalUrl
@@ -48,7 +50,7 @@ export const metadata: Metadata = {
               url: "/opengraph-image",
               width: 1200,
               height: 630,
-              alt: `${site.name} — sites sob medida para empresas`,
+              alt: `${site.studio} — sites sob medida para empresas`,
             },
           ],
         }
@@ -83,14 +85,14 @@ export const viewport: Viewport = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
-  name: `${site.name} · ${site.studio}`,
+  name: site.studio,
   description,
   email: site.email,
   telephone: "+17742498958",
   areaServed: "Worldwide",
   serviceType: "Criação de sites",
   founder: { "@type": "Person", name: site.name },
-  ...(site.url ? { url: site.url } : {}),
+  ...(publicUrl ? { url: publicUrl } : {}),
 };
 
 const designContract = {
