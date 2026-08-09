@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { site } from "@/data/site";
 
-const title = "Master Digital — Websites that prove the value of your work";
-const description = "Custom websites that present your work clearly, build trust, and turn visits into conversations.";
+const title = "Master Digital — Custom Websites That Build Trust";
+const description = "Custom websites for businesses that want to look credible, communicate clearly, and turn visitors into real inquiries.";
 
 export const metadata: Metadata = {
   title,

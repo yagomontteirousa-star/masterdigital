@@ -346,7 +346,7 @@ export function ProjectCarousel({ projects, locale = "pt" }: { projects: Publish
               {pendingProject.url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}
             </p>
             <h3 id="project-visit-title" className="display">{labels.dialogTitle}</h3>
-            <p id="project-visit-description">{labels.dialogDescriptionBefore} {pendingProject.name} {labels.dialogDescriptionAfter}</p>
+            <p id="project-visit-description">{labels.dialogDescription(pendingProject.name)}</p>
             <div className="project-visit-dialog__actions">
               <button type="button" className="project-visit-dialog__cancel" onClick={closeVisitDialog} autoFocus>
                 {labels.stay}

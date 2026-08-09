@@ -1215,7 +1215,7 @@
   .project-visit-dialog__cancel:hover {
     border-color: var(--color-ink);
     background: var(--color-ink);
-    color: var(--color-chalk);
+    color: var(--color-surface);
   }
 
   .project-visit-dialog__confirm:hover {

@@ -33,7 +33,7 @@ export const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeU
 
 export function getWhatsAppHref(locale: "pt" | "en") {
   const message = locale === "en"
-    ? "Hi, Yago! I saw your portfolio and would like a quote for my company website."
+    ? "Hi, Yago! I saw your portfolio and I’d like to get a quote for a website for my business."
     : site.whatsappMessage;
   return `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(message)}`;
 }
