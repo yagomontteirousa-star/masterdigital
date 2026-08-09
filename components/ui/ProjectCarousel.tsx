@@ -35,6 +35,7 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
   const focusWithinRef = useRef(false);
   const visibleRef = useRef(true);
   const dialogOpenRef = useRef(false);
+  const dialogInputRef = useRef<"pointer" | "keyboard">("pointer");
   const suppressClickUntilRef = useRef(0);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const dragRef = useRef<DragState>({ ...idleDrag });
@@ -57,20 +58,23 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
     let normalizationFrame = 0;
     let initialized = false;
     let last = performance.now();
+    let precisePosition = 0;
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    const normalizeScroll = () => {
+    const normalizeNativeScroll = () => {
       const width = segmentWidthRef.current;
       if (width <= 0) return;
       if (viewport.scrollLeft < width * 0.25) viewport.scrollLeft += width;
       else if (viewport.scrollLeft >= width * 1.75) viewport.scrollLeft -= width;
+      precisePosition = viewport.scrollLeft;
     };
 
     const queueNormalization = () => {
+      if (animationFrame && !dragRef.current.active) return;
       if (normalizationFrame) return;
       normalizationFrame = requestAnimationFrame(() => {
         normalizationFrame = 0;
-        normalizeScroll();
+        normalizeNativeScroll();
       });
     };
 
@@ -94,8 +98,11 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
       if (!canRun()) return;
       const elapsed = Math.min((now - last) / 1000, 0.05);
       last = now;
-      viewport.scrollLeft += 27 * elapsed;
-      normalizeScroll();
+      precisePosition += 27 * elapsed;
+      const width = segmentWidthRef.current;
+      if (precisePosition < width * 0.25) precisePosition += width;
+      else if (precisePosition >= width * 1.75) precisePosition -= width;
+      viewport.scrollLeft = precisePosition;
       animationFrame = requestAnimationFrame(tick);
     };
 
@@ -121,10 +128,12 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
       segmentWidthRef.current = nextWidth;
       if (!initialized || previousWidth <= 0) {
         viewport.scrollLeft = nextWidth;
+        precisePosition = nextWidth;
         initialized = true;
       } else {
         const positionWithinSegment = ((viewport.scrollLeft - previousWidth) % previousWidth + previousWidth) % previousWidth;
         viewport.scrollLeft = nextWidth + positionWithinSegment * (nextWidth / previousWidth);
+        precisePosition = viewport.scrollLeft;
       }
       start();
     };
@@ -191,8 +200,9 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
     }, delay);
   };
 
-  const requestProjectVisit = (project: PublishedProject) => {
+  const requestProjectVisit = (project: PublishedProject, input: "pointer" | "keyboard") => {
     if (performance.now() <= suppressClickUntilRef.current) return;
+    dialogInputRef.current = input;
     stopLoopRef.current();
     if (resumeTimerRef.current !== null) window.clearTimeout(resumeTimerRef.current);
     setPendingProject(project);
@@ -325,7 +335,16 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
         onClose={() => {
           dialogOpenRef.current = false;
           setPendingProject(null);
-          scheduleResume(700);
+          if (dialogInputRef.current === "pointer") {
+            requestAnimationFrame(() => {
+              const activeElement = document.activeElement;
+              if (activeElement instanceof HTMLElement && activeElement.closest(".project-tile")) {
+                activeElement.blur();
+              }
+              focusWithinRef.current = false;
+              scheduleResume(700);
+            });
+          }
         }}
       >
         {pendingProject ? (

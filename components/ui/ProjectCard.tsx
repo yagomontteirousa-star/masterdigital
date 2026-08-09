@@ -8,11 +8,11 @@ type ProjectCardProps = {
   project: PublishedProject;
   priority?: boolean;
   duplicate?: boolean;
-  onVisit: (project: PublishedProject) => void;
+  onVisit: (project: PublishedProject, input: "pointer" | "keyboard") => void;
 };
 
 export function ProjectCard({ project, priority = false, duplicate = false, onVisit }: ProjectCardProps) {
-  const visit = () => onVisit(project);
+  const visit = (input: "pointer" | "keyboard") => onVisit(project, input);
 
   return (
     <article
@@ -20,11 +20,11 @@ export function ProjectCard({ project, priority = false, duplicate = false, onVi
       aria-hidden={duplicate || undefined}
       aria-label={`Ver o site ${project.name}`}
       data-project-slug={project.slug}
-      onClick={visit}
+      onClick={() => visit("pointer")}
       onKeyDown={(event) => {
         if (duplicate || (event.key !== "Enter" && event.key !== " ")) return;
         event.preventDefault();
-        visit();
+        visit("keyboard");
       }}
       role={duplicate ? undefined : "button"}
       tabIndex={duplicate ? -1 : 0}

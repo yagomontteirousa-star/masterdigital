@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     // Todas as imagens sao locais (/public), entao nao ha remotePatterns.
     formats: ["image/avif", "image/webp"],
     // Obrigatorio a partir do Next 16: declarar as qualidades usadas.
-    qualities: [82],
+    qualities: [82, 95],
   },
 };
 
