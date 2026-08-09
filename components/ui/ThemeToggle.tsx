@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { MoonIcon, SunIcon } from "./Icons";
+import { getCopy, type Locale } from "@/data/i18n";
 
 type Theme = "light" | "dark";
 
@@ -18,8 +19,9 @@ function getInitialTheme(): Theme {
   return document.documentElement.dataset.theme === "dark" ? "dark" : "light";
 }
 
-export function ThemeToggle() {
+export function ThemeToggle({ locale = "pt" }: { locale?: Locale }) {
   const [theme, setTheme] = useState<Theme>("light");
+  const labels = getCopy(locale).theme;
 
   useEffect(() => {
     const syncTheme = () => setTheme(getInitialTheme());
@@ -46,11 +48,11 @@ export function ThemeToggle() {
       className="theme-toggle grid size-11 place-items-center rounded-full border border-line-strong text-ink"
       onClick={toggleTheme}
       aria-pressed={theme === "dark"}
-      aria-label={theme === "dark" ? "Ativar modo claro" : "Ativar modo noturno"}
-      title={theme === "dark" ? "Ativar modo claro" : "Ativar modo noturno"}
+      aria-label={theme === "dark" ? labels.light : labels.dark}
+      title={theme === "dark" ? labels.light : labels.dark}
       suppressHydrationWarning
     >
-      <span className="sr-only">Alternar tema</span>
+      <span className="sr-only">{labels.toggle}</span>
       <span className="theme-toggle__icon" aria-hidden="true">
         <MoonIcon className="theme-toggle__moon size-[1.05rem]" />
         <SunIcon className="theme-toggle__sun size-[1.05rem]" />

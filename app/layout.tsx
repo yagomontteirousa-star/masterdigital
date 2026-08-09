@@ -20,9 +20,9 @@ const sans = Manrope({
 });
 
 const publicUrl = site.url;
-const title = `${site.studio} — Sites sob medida para empresas`;
+const title = `${site.studio} — Sites que provam o valor do seu trabalho`;
 const description =
-  "Sites sob medida para empresas que precisam apresentar bem o que fazem, transmitir confiança e transformar visitas em novas conversas.";
+  "Sites sob medida para apresentar bem o que você faz, transmitir confiança e transformar visitas em conversas.";
 const hasCanonicalUrl = Boolean(publicUrl);
 
 export const metadata: Metadata = {
@@ -34,7 +34,9 @@ export const metadata: Metadata = {
   description,
   authors: [{ name: site.name }],
   creator: site.name,
-  ...(hasCanonicalUrl ? { alternates: { canonical: "/" } } : {}),
+  ...(hasCanonicalUrl
+    ? { alternates: { canonical: "/", languages: { "pt-BR": "/", en: "/en" } } }
+    : {}),
   openGraph: {
     type: "website",
     locale: "pt_BR",
@@ -49,7 +51,7 @@ export const metadata: Metadata = {
               url: "/opengraph-image",
               width: 1200,
               height: 630,
-              alt: `${site.studio} — sites sob medida para empresas`,
+              alt: `${site.studio} — sites que provam o valor do seu trabalho`,
             },
           ],
         }

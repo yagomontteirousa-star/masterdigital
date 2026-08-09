@@ -170,3 +170,65 @@ export const projects: Project[] = [
 /** Recortes usados na composição editorial do hero. */
 export const heroPrimarySet = projects.filter((project) => project.featured);
 export const heroSecondarySet = projects.filter((project) => !project.featured);
+
+const englishProjectCopy: Record<string, Pick<Project, "segment" | "location" | "description" | "objective" | "deliverables" | "coverAlt" | "category">> = {
+  "vilela-turismo": {
+    segment: "Travel agency",
+    location: { state: "Goiás", country: "Brazil", flag: "br" },
+    description: "A landing page where every trip quote begins and ends on WhatsApp.",
+    objective: "Show that there is a real agency, a physical location, and a real team behind the service while shortening the path from package questions to a conversation.",
+    deliverables: ["Conversion landing page", "Customer review proof", "Direct WhatsApp quotes", "SEO and Open Graph"],
+    coverAlt: "Vilela Turismo website homepage",
+    category: "Serviços",
+  },
+  "camilas-cleaning": {
+    segment: "Cleaning services",
+    location: { state: "Massachusetts", country: "United States", flag: "us" },
+    description: "An English-language website for residential and commercial cleaning.",
+    objective: "Turn a reputation built through referrals into a digital presence of the same quality and organize estimate requests into one clear path.",
+    deliverables: ["English-language business website", "Real work gallery", "SMS, phone, and email contact", "LocalBusiness structured data"],
+    coverAlt: "Camila's Cleaning Service website homepage",
+    category: "Serviços",
+  },
+  "al-the-painter": {
+    segment: "Painting and finishes",
+    location: { state: "Massachusetts", country: "United States", flag: "us" },
+    description: "An English-language website for a specialist painting and finishing service.",
+    objective: "Make specialized finishing expertise visible in the first viewport in a market where most competitors lead with discounts.",
+    deliverables: ["Website brand direction", "Services and reviews structure", "Project gallery", "Technical SEO and Open Graph"],
+    coverAlt: "Al The Painter LLC website homepage",
+    category: "Serviços",
+  },
+  "gustavo-san": {
+    segment: "Voice-over artist",
+    location: { state: "São Paulo", country: "Brazil", flag: "br" },
+    description: "A voice portfolio designed to be shared directly with agencies and production companies.",
+    objective: "Bring career highlights, demos, and client brands into a single page that works as a persuasive calling card.",
+    deliverables: ["Voice portfolio with audio player", "Client brand showcase", "Premium dark art direction", "Direct WhatsApp contact"],
+    coverAlt: "Gustavo San voice portfolio homepage",
+    category: "Portfólio",
+  },
+  "master-sonorizacao": {
+    segment: "Musical instruments and audio",
+    location: { state: "Minas Gerais", country: "Brazil", flag: "br" },
+    description: "A digital catalog for a physical musical instrument and audio store.",
+    objective: "Bring the store inventory online without turning it into e-commerce: customers find products and ask about price and availability on WhatsApp.",
+    deliverables: ["Category-based catalog", "Dedicated product pages", "WhatsApp inquiries", "Store identity applied"],
+    coverAlt: "Master Sonorização website homepage",
+    category: "Catálogo",
+  },
+  "beltrame-acessorios": {
+    segment: "Woodworking supplies",
+    location: { state: "Bahia", country: "Brazil", flag: "br" },
+    description: "A showcase for MDF, hardware, profiles, and coatings for woodworkers.",
+    objective: "Organize a broad catalog into navigation simple enough for woodworkers to find an item and send an order through WhatsApp.",
+    deliverables: ["Category showcase", "Dedicated product pages", "Sales representative contact", "Open Graph and favicon"],
+    coverAlt: "Beltrame Acessórios website homepage",
+    category: "Catálogo",
+  },
+};
+
+export function getProjects(locale: "pt" | "en"): Project[] {
+  if (locale === "pt") return projects;
+  return projects.map((project) => ({ ...project, ...englishProjectCopy[project.slug] }));
+}

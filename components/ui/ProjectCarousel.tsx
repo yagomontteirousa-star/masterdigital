@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Project } from "@/data/projects";
 import { ProjectCard } from "./ProjectCard";
+import { getCopy, type Locale } from "@/data/i18n";
 
 type PublishedProject = Project & { url: string };
 
@@ -28,7 +29,7 @@ const idleDrag: DragState = {
 
 const dragThreshold = 16;
 
-export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) {
+export function ProjectCarousel({ projects, locale = "pt" }: { projects: PublishedProject[]; locale?: Locale }) {
   const viewportRef = useRef<HTMLDivElement>(null);
   const groupRef = useRef<HTMLDivElement>(null);
   const segmentWidthRef = useRef(0);
@@ -44,6 +45,7 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
   const dragRef = useRef<DragState>({ ...idleDrag });
   const [dragging, setDragging] = useState(false);
   const [pendingProject, setPendingProject] = useState<PublishedProject | null>(null);
+  const labels = getCopy(locale).projects;
 
   useEffect(() => {
     const viewport = viewportRef.current;
@@ -272,7 +274,7 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
   return (
     <div className="project-carousel">
       <div className="shell project-carousel__controls">
-        <p className="text-sm text-ink-600">Arraste para explorar · movimento contínuo</p>
+        <p className="text-sm text-ink-600">{labels.explore}</p>
       </div>
 
       <div
@@ -280,7 +282,7 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
         className="project-carousel__viewport"
         data-dragging={dragging}
         role="region"
-        aria-label="Projetos publicados em carrossel"
+        aria-label={labels.region}
         onPointerDownCapture={beginDrag}
         onPointerMove={moveDrag}
         onPointerUpCapture={finishDrag}
@@ -307,17 +309,17 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
         <div className="project-carousel__track">
           <div className="project-carousel__group" aria-hidden="true">
             {projects.map((project) => (
-              <ProjectCard key={`previous-${project.slug}`} project={project} duplicate onVisit={requestProjectVisit} />
+              <ProjectCard key={`previous-${project.slug}`} project={project} duplicate onVisit={requestProjectVisit} locale={locale} />
             ))}
           </div>
           <div ref={groupRef} className="project-carousel__group">
             {projects.map((project) => (
-              <ProjectCard key={project.slug} project={project} onVisit={requestProjectVisit} />
+              <ProjectCard key={project.slug} project={project} onVisit={requestProjectVisit} locale={locale} />
             ))}
           </div>
           <div className="project-carousel__group" aria-hidden="true">
             {projects.map((project) => (
-              <ProjectCard key={`next-${project.slug}`} project={project} duplicate onVisit={requestProjectVisit} />
+              <ProjectCard key={`next-${project.slug}`} project={project} duplicate onVisit={requestProjectVisit} locale={locale} />
             ))}
           </div>
         </div>
@@ -343,14 +345,14 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
             <p className="project-visit-dialog__domain">
               {pendingProject.url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}
             </p>
-            <h3 id="project-visit-title" className="display">Quer visitar este site?</h3>
-            <p id="project-visit-description">Você será levado para o site de {pendingProject.name} em uma nova aba.</p>
+            <h3 id="project-visit-title" className="display">{labels.dialogTitle}</h3>
+            <p id="project-visit-description">{labels.dialogDescriptionBefore} {pendingProject.name} {labels.dialogDescriptionAfter}</p>
             <div className="project-visit-dialog__actions">
               <button type="button" className="project-visit-dialog__cancel" onClick={closeVisitDialog} autoFocus>
-                Continuar aqui
+                {labels.stay}
               </button>
               <button type="button" className="project-visit-dialog__confirm" onClick={confirmProjectVisit}>
-                Visitar site
+                {labels.visit}
               </button>
             </div>
           </section>

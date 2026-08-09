@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { getCopy, type Locale } from "@/data/i18n";
 
-export function SiteLoader() {
+export function SiteLoader({ locale = "pt" }: { locale?: Locale }) {
   const [stage, setStage] = useState<"visible" | "leaving" | "hidden">("visible");
+  const labels = getCopy(locale).loader;
 
   useEffect(() => {
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -25,7 +27,7 @@ export function SiteLoader() {
       <div className="site-loader__topline" aria-hidden="true">
         <Image src="/brand/master-digital-symbol-orange.svg" alt="" width={512} height={512} priority />
         <span>Master Digital</span>
-        <span>Construindo sua experiência</span>
+        <span>{labels.building}</span>
       </div>
 
       <div className="site-loader__scene" aria-hidden="true">
@@ -52,17 +54,15 @@ export function SiteLoader() {
             height={300}
             priority
           />
-          <p>Seu site começa com direção.</p>
+          <p>{labels.tagline}</p>
         </div>
       </div>
 
       <div className="site-loader__footer" aria-hidden="true">
-        <span>Estratégia</span>
-        <span>Direção</span>
-        <span>Site no ar</span>
+        {labels.steps.map((step) => <span key={step}>{step}</span>)}
         <span className="site-loader__progress"><span /></span>
       </div>
-      <span className="sr-only">Carregando o site</span>
+      <span className="sr-only">{labels.status}</span>
     </div>
   );
 }

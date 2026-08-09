@@ -1,4 +1,5 @@
-import { site, whatsappHref } from "@/data/site";
+import { site, getWhatsAppHref } from "@/data/site";
+import { getCopy, type Locale } from "@/data/i18n";
 import { ButtonLink } from "@/components/ui/Button";
 import {
   ArrowUpRight,
@@ -10,28 +11,25 @@ import {
   WhatsAppIcon,
 } from "@/components/ui/Icons";
 
-const journey = [
-  { label: "Ideia", Icon: IdeaIcon },
-  { label: "Estrutura", Icon: StructureIcon },
-  { label: "Resultado", Icon: ResultIcon },
-];
+const journeyIcons = [IdeaIcon, StructureIcon, ResultIcon];
 
-export function FinalCta() {
+export function FinalCta({ locale = "pt" }: { locale?: Locale }) {
+  const labels = getCopy(locale);
+  const whatsappHref = getWhatsAppHref(locale);
   return (
     <section id="contato" className="final-cta overflow-hidden bg-accent py-16 text-night md:py-20">
       <div className="shell final-cta__layout">
         <div className="final-cta__intro">
-          <p className="eyebrow text-night/85">Seu próximo site começa aqui</p>
+          <p className="eyebrow text-night/85">{labels.final.eyebrow}</p>
           <h2 className="display max-w-[18ch] text-[clamp(2.9rem,5.1vw,5.5rem)] text-balance">
-            Me conte o que sua empresa faz e eu digo o que o site precisa ter
+            {labels.final.title}
           </h2>
           <p className="mt-6 max-w-2xl text-base leading-7 text-night/85">
-            Envie o nome da empresa e o que você vende. Atendo clientes no Brasil e no mundo,
-            com as perguntas certas para definir escopo e prazo.
+            {labels.final.description}
           </p>
         </div>
 
-        <div className="final-cta__journey" aria-label="Do primeiro insight ao resultado">
+        <div className="final-cta__journey" aria-label={labels.final.journeyAria}>
           <svg className="final-cta__route" viewBox="0 0 720 360" fill="none" aria-hidden="true">
             <path
               className="final-cta__route-path"
@@ -45,12 +43,15 @@ export function FinalCta() {
           </svg>
 
           <ol className="final-cta__journey-steps">
-            {journey.map(({ label, Icon }, index) => (
+            {labels.final.journey.map((label, index) => {
+              const Icon = journeyIcons[index];
+              return (
               <li key={label} className={`final-cta__journey-step final-cta__journey-step--${index + 1}`}>
                 <span className="final-cta__journey-icon"><Icon className="size-5" /></span>
                 <span>{label}</span>
               </li>
-            ))}
+              );
+            })}
           </ol>
         </div>
 
@@ -63,7 +64,7 @@ export function FinalCta() {
             leading={<WhatsAppIcon className="size-4" />}
             trailing={<ArrowUpRight className="size-4" />}
           >
-            Falar no WhatsApp
+            {labels.whatsapp}
           </ButtonLink>
           <div className="final-cta__contact-bubbles">
             <a href={`mailto:${site.email}`} className="final-cta__contact-bubble">
@@ -73,7 +74,7 @@ export function FinalCta() {
             </a>
             <span className="final-cta__contact-bubble final-cta__contact-bubble--static">
               <LocationIcon className="size-4" />
-              {site.location}
+              {locale === "en" ? "Remote · worldwide" : site.location}
             </span>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import type { Project } from "@/data/projects";
 import { ArrowUpRight } from "./Icons";
 import { BrowserFrame } from "./BrowserFrame";
+import { getCopy, type Locale } from "@/data/i18n";
 
 type PublishedProject = Project & { url: string };
 
@@ -9,10 +10,12 @@ type ProjectCardProps = {
   priority?: boolean;
   duplicate?: boolean;
   onVisit: (project: PublishedProject, input: "pointer" | "keyboard") => void;
+  locale?: Locale;
 };
 
-export function ProjectCard({ project, priority = false, duplicate = false, onVisit }: ProjectCardProps) {
+export function ProjectCard({ project, priority = false, duplicate = false, onVisit, locale = "pt" }: ProjectCardProps) {
   const visit = (input: "pointer" | "keyboard") => onVisit(project, input);
+  const labels = getCopy(locale).projects;
 
   return (
     <article
@@ -23,7 +26,7 @@ export function ProjectCard({ project, priority = false, duplicate = false, onVi
       <button
         type="button"
         className="project-tile__visit-action"
-        aria-label={`Ver o site ${project.name}`}
+        aria-label={`${labels.visitAria} ${project.name}`}
         tabIndex={duplicate ? -1 : undefined}
         onPointerUp={() => visit("pointer")}
         onClick={() => visit("pointer")}
@@ -40,7 +43,7 @@ export function ProjectCard({ project, priority = false, duplicate = false, onVi
           imageClassName="project-tile__image"
         />
         <span className="project-tile__visit-prompt" aria-hidden="true">
-          <span>Clique para visitar</span>
+          <span>{labels.visitPrompt}</span>
           <ArrowUpRight className="size-4" />
         </span>
       </div>
@@ -54,7 +57,7 @@ export function ProjectCard({ project, priority = false, duplicate = false, onVi
           <p className="project-tile__location mt-3">
             <span
               role="img"
-              aria-label={`Bandeira de ${project.location.country}`}
+              aria-label={`${labels.flagAria} ${project.location.country}`}
               className={`country-flag country-flag--${project.location.flag}`}
             />
             <span>{project.location.state ? `${project.location.state} · ` : ""}{project.location.country}</span>

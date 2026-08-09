@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { BrowserFrame } from "./BrowserFrame";
+import { getCopy, type Locale } from "@/data/i18n";
 
 export type HeroProjectPreview = {
   slug: string;
@@ -13,7 +14,7 @@ export type HeroProjectPreview = {
 
 type FramePhase = "visible" | "exiting" | "entering";
 
-export function HeroProjectShowcase({ projects }: { projects: HeroProjectPreview[] }) {
+export function HeroProjectShowcase({ projects, locale = "pt" }: { projects: HeroProjectPreview[]; locale?: Locale }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const [primaryIndex, setPrimaryIndex] = useState(0);
   const [secondaryIndex, setSecondaryIndex] = useState(1);
@@ -93,13 +94,14 @@ export function HeroProjectShowcase({ projects }: { projects: HeroProjectPreview
   const secondary = projects[secondaryIndex % projects.length];
   const primaryDisplayPhase = running && projects.length >= 3 ? primaryPhase : "visible";
   const secondaryDisplayPhase = running && projects.length >= 3 ? secondaryPhase : "visible";
+  const altPrefix = getCopy(locale).hero.publishedAlt;
 
   return (
     <div ref={rootRef} className="hero-proof relative z-10 mx-auto w-full max-w-[46rem]">
       <BrowserFrame
         key={`primary-${primary.slug}`}
         src={primary.cover}
-        alt={`Página inicial publicada de ${primary.name}`}
+        alt={`${altPrefix} ${primary.name}`}
         label={primary.url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}
         priority
         sizes="(max-width: 1024px) 94vw, 58vw"
@@ -109,7 +111,7 @@ export function HeroProjectShowcase({ projects }: { projects: HeroProjectPreview
       <BrowserFrame
         key={`secondary-${secondary.slug}`}
         src={secondary.cover}
-        alt={`Página inicial publicada de ${secondary.name}`}
+        alt={`${altPrefix} ${secondary.name}`}
         label={secondary.url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}
         priority
         sizes="(max-width: 640px) 72vw, 32vw"

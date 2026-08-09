@@ -1,16 +1,20 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { nav, whatsappHref } from "@/data/site";
+import { getWhatsAppHref } from "@/data/site";
+import { getCopy, type Locale } from "@/data/i18n";
 import { Brand } from "./Brand";
 import { ButtonLink } from "@/components/ui/Button";
 import { ArrowUpRight, WhatsAppIcon } from "@/components/ui/Icons";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { LanguageToggle } from "@/components/ui/LanguageToggle";
 
-export function Header() {
+export function Header({ locale = "pt" }: { locale?: Locale }) {
   const [open, setOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const labels = getCopy(locale);
+  const whatsappHref = getWhatsAppHref(locale);
 
   useEffect(() => {
     if (!open) return;
@@ -70,10 +74,10 @@ export function Header() {
     <header className="site-header fixed inset-x-0 top-0 z-90">
       <div className="shell">
         <div className="header-bar flex items-center justify-between gap-3 rounded-[1.15rem] border border-line-light/80 bg-surface/96 px-4 shadow-float md:gap-5 md:px-5">
-          <Brand tone="light" variant="studio" className="header-brand" />
+          <Brand tone="light" variant="studio" className="header-brand" locale={locale} />
 
-          <nav aria-label="Navegação principal" className="hidden items-center gap-8 lg:flex">
-            {nav.map((item) => (
+          <nav aria-label={labels.navLabel} className="hidden items-center gap-8 lg:flex">
+            {labels.nav.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
@@ -85,14 +89,15 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <ThemeToggle />
+            <ThemeToggle locale={locale} />
+            <LanguageToggle locale={locale} />
             <ButtonLink
               href={whatsappHref}
               external
               className="max-sm:hidden"
               leading={<WhatsAppIcon className="size-4" />}
             >
-              Falar no WhatsApp
+              {labels.whatsapp}
             </ButtonLink>
 
             <button
@@ -101,7 +106,7 @@ export function Header() {
               onClick={() => setOpen(true)}
               aria-expanded={open}
               aria-controls="menu-mobile"
-              aria-label="Abrir menu"
+              aria-label={labels.openMenu}
               className="grid size-11 place-items-center rounded-full border border-line-strong text-ink lg:hidden"
             >
               <span aria-hidden="true" className="grid w-5 gap-1.5">
@@ -119,17 +124,18 @@ export function Header() {
           id="menu-mobile"
           role="dialog"
           aria-modal="true"
-          aria-label="Menu principal"
+          aria-label={labels.mobileMenuLabel}
           className="mobile-menu-panel fixed inset-0 z-100 flex min-h-dvh flex-col bg-light text-ink lg:hidden"
         >
           <div className="shell flex min-h-[5rem] items-center justify-between border-b border-line-light">
-            <Brand tone="light" variant="studio" className="mobile-menu-brand" onClick={() => setOpen(false)} />
+            <Brand tone="light" variant="studio" className="mobile-menu-brand" locale={locale} onClick={() => setOpen(false)} />
             <div className="flex items-center gap-2">
-              <ThemeToggle />
+              <ThemeToggle locale={locale} />
+              <LanguageToggle locale={locale} />
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                aria-label="Fechar menu"
+                aria-label={labels.closeMenu}
                 className="relative size-11 rounded-full border border-line-strong"
               >
                 <span aria-hidden="true" className="absolute inset-1/2 h-px w-5 -translate-x-1/2 rotate-45 bg-ink" />
@@ -138,8 +144,8 @@ export function Header() {
             </div>
           </div>
 
-          <nav className="shell flex flex-1 flex-col justify-center py-10" aria-label="Navegação mobile">
-            {nav.map((item) => (
+          <nav className="shell flex flex-1 flex-col justify-center py-10" aria-label={labels.mobileNavLabel}>
+            {labels.nav.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
@@ -157,7 +163,7 @@ export function Header() {
               className="mt-9 w-full"
               leading={<WhatsAppIcon className="size-4" />}
             >
-              Falar no WhatsApp
+              {labels.whatsapp}
             </ButtonLink>
           </nav>
         </div>

@@ -2,16 +2,19 @@ import Image from "next/image";
 import type { MouseEventHandler } from "react";
 import { site } from "@/data/site";
 import { cn } from "@/lib/cn";
+import { getCopy, type Locale } from "@/data/i18n";
 
 type BrandProps = {
   tone?: "light" | "dark";
   variant?: "personal" | "studio";
   className?: string;
   onClick?: MouseEventHandler<HTMLAnchorElement>;
+  locale?: Locale;
 };
 
-export function Brand({ tone = "dark", variant = "personal", className, onClick }: BrandProps) {
+export function Brand({ tone = "dark", variant = "personal", className, onClick, locale = "pt" }: BrandProps) {
   const darkSurface = tone === "dark";
+  const startLabel = getCopy(locale).start;
 
   if (variant === "studio") {
     return (
@@ -19,7 +22,7 @@ export function Brand({ tone = "dark", variant = "personal", className, onClick 
         href="#top"
         onClick={onClick}
         className={cn("group inline-flex min-h-11 items-center", className)}
-        aria-label={`${site.studio} — início`}
+        aria-label={`${site.studio} — ${startLabel}`}
       >
         <Image
           src={darkSurface ? "/brand/master-digital-white.svg" : "/brand/master-digital-black.svg"}
@@ -37,7 +40,7 @@ export function Brand({ tone = "dark", variant = "personal", className, onClick 
       href="#top"
       onClick={onClick}
       className={cn("group inline-flex min-h-11 items-center gap-2.5", className)}
-      aria-label={`${site.name} — início`}
+      aria-label={`${site.name} — ${startLabel}`}
     >
       <Image
         src={

@@ -31,6 +31,13 @@ export const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeU
   site.whatsappMessage,
 )}`;
 
+export function getWhatsAppHref(locale: "pt" | "en") {
+  const message = locale === "en"
+    ? "Hi, Yago! I saw your portfolio and would like a quote for my company website."
+    : site.whatsappMessage;
+  return `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(message)}`;
+}
+
 export const nav = [
   { label: "Início", href: "#top" },
   { label: "Projetos", href: "#projetos" },
