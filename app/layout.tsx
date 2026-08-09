@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { Instrument_Serif, Manrope } from "next/font/google";
 import { site } from "@/data/site";
 import "./globals.css";
@@ -71,7 +72,10 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f4efe5",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f4efe5" },
+    { media: "(prefers-color-scheme: dark)", color: "#12120f" },
+  ],
   colorScheme: "light dark",
   viewportFit: "cover",
 };
@@ -104,14 +108,28 @@ const designContract = {
     "unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md",
 };
 
+const themeBootstrap = `(() => {
+  try {
+    const saved = localStorage.getItem("master-digital-theme");
+    const theme = saved === "dark" || saved === "light"
+      ? saved
+      : window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+    document.documentElement.dataset.theme = theme;
+    document.documentElement.style.colorScheme = theme;
+  } catch {}
+})();`;
+
 function safeJson(value: unknown) {
   return JSON.stringify(value).replace(/</g, "\\u003c");
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={`${display.variable} ${sans.variable}`}>
+    <html lang="pt-BR" className={`${display.variable} ${sans.variable}`} suppressHydrationWarning>
       <body>
+        <Script id="theme-bootstrap" strategy="beforeInteractive">{themeBootstrap}</Script>
         <script
           id="design-contract"
           type="application/json"

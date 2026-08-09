@@ -59,6 +59,23 @@ export function ArrowLeft({ className }: IconProps) {
   );
 }
 
+export function SunIcon({ className }: IconProps) {
+  return (
+    <StrokeIcon className={className}>
+      <circle cx="12" cy="12" r="3.75" />
+      <path d="M12 2.5v2M12 19.5v2M5.28 5.28l1.42 1.42M17.3 17.3l1.42 1.42M2.5 12h2M19.5 12h2M5.28 18.72l1.42-1.42M17.3 6.7l1.42-1.42" />
+    </StrokeIcon>
+  );
+}
+
+export function MoonIcon({ className }: IconProps) {
+  return (
+    <StrokeIcon className={className}>
+      <path d="M20.5 14.8A8.6 8.6 0 0 1 9.2 3.5 8.6 8.6 0 1 0 20.5 14.8Z" />
+    </StrokeIcon>
+  );
+}
+
 function StrokeIcon({ className, children }: IconProps & { children: ReactNode }) {
   return (
     <svg

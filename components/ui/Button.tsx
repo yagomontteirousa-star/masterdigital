@@ -43,7 +43,8 @@ export function ButtonLink({
       href={href}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       className={cn(
-        "group inline-flex items-center justify-center gap-3 rounded-full font-bold transition-[background-color,color,border-color,transform] duration-200 active:translate-y-px",
+        "button-link group inline-flex items-center justify-center gap-3 rounded-full font-bold transition-[background-color,color,border-color,transform] duration-200 active:translate-y-px",
+        `button-link--${variant}`,
         variants[variant],
         sizes[size],
         className,

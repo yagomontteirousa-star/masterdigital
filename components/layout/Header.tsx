@@ -5,6 +5,7 @@ import { nav, whatsappHref } from "@/data/site";
 import { Brand } from "./Brand";
 import { ButtonLink } from "@/components/ui/Button";
 import { ArrowUpRight, WhatsAppIcon } from "@/components/ui/Icons";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -68,7 +69,7 @@ export function Header() {
   return (
     <header className="site-header fixed inset-x-0 top-0 z-90">
       <div className="shell">
-        <div className="header-bar flex items-center justify-between gap-3 rounded-[1.15rem] border border-line-light/80 bg-[#fbf8f1]/96 px-4 shadow-float md:gap-5 md:px-5">
+        <div className="header-bar flex items-center justify-between gap-3 rounded-[1.15rem] border border-line-light/80 bg-surface/96 px-4 shadow-float md:gap-5 md:px-5">
           <Brand tone="light" variant="studio" className="header-brand" />
 
           <nav aria-label="Navegação principal" className="hidden items-center gap-8 lg:flex">
@@ -84,6 +85,7 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-3">
+            <ThemeToggle />
             <ButtonLink
               href={whatsappHref}
               external
@@ -121,16 +123,19 @@ export function Header() {
           className="mobile-menu-panel fixed inset-0 z-100 flex min-h-dvh flex-col bg-light text-ink lg:hidden"
         >
           <div className="shell flex min-h-[5rem] items-center justify-between border-b border-line-light">
-            <Brand tone="light" variant="studio" onClick={() => setOpen(false)} />
-            <button
-              type="button"
-              onClick={() => setOpen(false)}
-              aria-label="Fechar menu"
-              className="relative size-11 rounded-full border border-line-strong"
-            >
-              <span aria-hidden="true" className="absolute inset-1/2 h-px w-5 -translate-x-1/2 rotate-45 bg-ink" />
-              <span aria-hidden="true" className="absolute inset-1/2 h-px w-5 -translate-x-1/2 -rotate-45 bg-ink" />
-            </button>
+            <Brand tone="light" variant="studio" className="mobile-menu-brand" onClick={() => setOpen(false)} />
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                aria-label="Fechar menu"
+                className="relative size-11 rounded-full border border-line-strong"
+              >
+                <span aria-hidden="true" className="absolute inset-1/2 h-px w-5 -translate-x-1/2 rotate-45 bg-ink" />
+                <span aria-hidden="true" className="absolute inset-1/2 h-px w-5 -translate-x-1/2 -rotate-45 bg-ink" />
+              </button>
+            </div>
           </div>
 
           <nav className="shell flex flex-1 flex-col justify-center py-10" aria-label="Navegação mobile">
