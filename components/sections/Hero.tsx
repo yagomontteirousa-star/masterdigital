@@ -18,6 +18,7 @@ export function Hero({ locale = "pt" }: { locale?: Locale }) {
     "camilas-cleaning",
     "vilela-turismo",
     "al-the-painter",
+    "elite-painting",
     "gustavo-san",
     "master-sonorizacao",
     "beltrame-acessorios",

@@ -27,6 +27,7 @@ const CHROME_CANDIDATES = [
 const TARGETS = [
   { slug: "vilela-turismo", url: "https://vilelaturismo.com/", file: "vilela-turismo-repo/index.html" },
   { slug: "al-the-painter", url: "https://althepainterllc.vercel.app/", file: "althepainterllc/index.html" },
+  { slug: "elite-painting", url: "https://elitepainting-gilt.vercel.app/", file: null },
   { slug: "camilas-cleaning", url: "https://camilascleaning.vercel.app/", file: "camilascleaning/index.html" },
   { slug: "gustavo-san", url: "https://gustavosan.com/", file: "gustavosan/index.html" },
   { slug: "master-sonorizacao", url: "https://sitemastersom.vercel.app/", file: "mastersonorizacao/index.html" },
@@ -131,7 +132,7 @@ async function main() {
   for (const target of targets) {
     const page = await browser.newPage();
     await page.setViewport(VIEWPORT);
-    const local = pathToFileURL(resolve(SITES_DIR, target.file)).href;
+    const local = target.file ? pathToFileURL(resolve(SITES_DIR, target.file)).href : null;
     const sources = [target.url, local].filter(Boolean);
 
     let ok = false;

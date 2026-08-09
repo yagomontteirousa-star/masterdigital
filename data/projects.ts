@@ -106,6 +106,26 @@ export const projects: Project[] = [
     featured: true,
   },
   {
+    slug: "elite-painting",
+    name: "Elite Carpentry & Painting",
+    segment: "Pintura e carpintaria",
+    location: { state: "Massachusetts", country: "Estados Unidos", flag: "us" },
+    description: "Site em inglês para serviços premium de pintura, acabamento e carpintaria.",
+    objective:
+      "Apresentar a experiência da equipe, o cuidado com a preparação e a qualidade do acabamento em um caminho direto até o pedido de orçamento.",
+    deliverables: [
+      "Site institucional em inglês",
+      "Portfólio de projetos reais",
+      "Serviços e avaliações",
+      "SEO técnico e contato direto",
+    ],
+    cover: "/projects/elite-painting.jpg",
+    coverAlt: "Página inicial do site da Elite Carpentry & Painting",
+    url: "https://elitepainting-gilt.vercel.app/",
+    category: "Serviços",
+    featured: true,
+  },
+  {
     slug: "gustavo-san",
     name: "Gustavo San",
     segment: "Locução e voice-over",
@@ -197,6 +217,15 @@ const englishProjectCopy: Record<string, Pick<Project, "segment" | "location" | 
     objective: "Lead with craftsmanship and specialized finishes in a market where most competitors lead with price.",
     deliverables: ["Brand direction for the website", "Services and reviews", "Project gallery", "Technical SEO and social sharing"],
     coverAlt: "Al The Painter LLC website homepage",
+    category: "Serviços",
+  },
+  "elite-painting": {
+    segment: "Painting & carpentry",
+    location: { state: "Massachusetts", country: "United States", flag: "us" },
+    description: "A premium website for painting, finish work, and carpentry services.",
+    objective: "Show the team’s experience, preparation standards, and finish quality—then give homeowners a direct path to request an estimate.",
+    deliverables: ["English-language business website", "Real project portfolio", "Services and customer reviews", "Technical SEO and direct contact"],
+    coverAlt: "Elite Carpentry & Painting website homepage",
     category: "Serviços",
   },
   "gustavo-san": {
