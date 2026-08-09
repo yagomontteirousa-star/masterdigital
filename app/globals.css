@@ -236,6 +236,22 @@
     overflow: hidden;
   }
 
+  .hero-viewport::before {
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 14% 22%, rgb(23 23 20 / 0.09) 0 0.6px, transparent 0.85px),
+      radial-gradient(circle at 78% 64%, rgb(255 90 0 / 0.12) 0 0.75px, transparent 1px),
+      radial-gradient(circle at 42% 86%, rgb(23 23 20 / 0.055) 0 0.45px, transparent 0.7px);
+    background-position: 0 0, 11px 17px, 23px 5px;
+    background-size: 31px 37px, 47px 43px, 59px 53px;
+    content: "";
+    mix-blend-mode: multiply;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
   .site-header {
     padding-top: max(0.75rem, env(safe-area-inset-top));
   }
@@ -1167,7 +1183,7 @@
     stroke-dasharray: 1;
     stroke-dashoffset: 1;
     opacity: 0;
-    animation: final-route-draw 9s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+    animation: final-route-draw 4.6s cubic-bezier(0.45, 0, 0.2, 1) infinite;
   }
 
   .final-cta__route-node {
@@ -1176,7 +1192,7 @@
     stroke-width: 1.5;
     transform-box: fill-box;
     transform-origin: center;
-    animation: final-route-node 9s ease-in-out infinite;
+    animation: final-route-node 4.6s ease-in-out infinite;
   }
 
   .final-cta__journey-steps {
