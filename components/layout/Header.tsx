@@ -77,7 +77,7 @@ export function Header() {
               <a
                 key={item.href}
                 href={item.href}
-                className="inline-flex min-h-11 items-center py-2 text-sm font-semibold text-ink-600 transition-colors duration-200 hover:text-ink"
+                className="header-nav-link inline-flex min-h-11 items-center py-2 text-sm font-semibold text-ink-600"
               >
                 {item.label}
               </a>

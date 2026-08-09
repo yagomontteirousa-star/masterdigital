@@ -314,7 +314,12 @@
     opacity: 0.86;
     pointer-events: none;
     transform: rotate(-8deg);
-    animation: hero-reticle-drift 9s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+    animation: hero-reticle-drift 4.8s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+    will-change: background-position, opacity, transform;
+  }
+
+  .hero-viewport[data-hero-active="false"]::after {
+    animation-play-state: paused;
   }
 
   :root[data-theme="dark"] .hero-viewport::before {
@@ -342,7 +347,16 @@
   }
 
   .header-brand img {
-    height: 2.25rem;
+    height: 3.25rem !important;
+  }
+
+  .header-nav-link {
+    transition: color 180ms ease-out, transform 180ms ease-out;
+  }
+
+  .header-nav-link:hover {
+    color: var(--color-accent);
+    transform: translateY(-1px);
   }
 
   .mobile-menu-panel {
@@ -665,6 +679,7 @@
     background: var(--color-night);
     color: var(--color-chalk);
     transition: clip-path 400ms cubic-bezier(0.76, 0, 0.24, 1), opacity 400ms ease-out, visibility 400ms step-end;
+    will-change: filter, opacity, transform;
   }
 
   .site-loader::before {
@@ -678,14 +693,8 @@
     pointer-events: none;
   }
 
-  .site-loader--visible {
-    animation: loader-safe-dismiss 420ms 3.2s cubic-bezier(0.76, 0, 0.24, 1) forwards;
-  }
-
   .site-loader--leaving {
-    visibility: hidden;
-    opacity: 0;
-    clip-path: inset(0 0 100% 0);
+    animation: loader-safe-dismiss 760ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
     pointer-events: none;
   }
 
@@ -1934,15 +1943,15 @@
 
     .header-brand {
       display: flex;
-      width: min(9.8rem, calc(100% - 6.5rem));
+      width: min(11.5rem, calc(100% - 6.5rem));
       min-height: 2.75rem;
       justify-content: flex-start;
     }
 
     .header-brand img {
       width: 100%;
-      height: auto;
-      max-height: 1.85rem;
+      height: auto !important;
+      max-height: 2.6rem !important;
     }
 
     .header-bar > div:last-child {
@@ -2094,11 +2103,21 @@
   }
 
   @keyframes loader-safe-dismiss {
+    from {
+      filter: blur(0);
+      opacity: 1;
+      transform: scale(1);
+    }
+    62% {
+      filter: blur(2px);
+      opacity: 0.58;
+    }
     to {
       visibility: hidden;
       opacity: 0;
-      clip-path: inset(0 0 100% 0);
+      filter: blur(7px);
       pointer-events: none;
+      transform: scale(1.015);
     }
   }
 
@@ -2299,13 +2318,13 @@
     0%,
     100% {
       background-position: 0 0, 9px 13px;
-      opacity: 0.82;
+      opacity: 0.68;
       transform: rotate(-8deg) translate3d(0, 0, 0);
     }
-    48% {
-      background-position: 19px 17px, 29px 35px;
+    44% {
+      background-position: 42px 32px, 58px 67px;
       opacity: 1;
-      transform: rotate(-8deg) translate3d(-2.4%, 1.2%, 0);
+      transform: rotate(-8deg) translate3d(-5.5%, 2.4%, 0);
     }
   }
 

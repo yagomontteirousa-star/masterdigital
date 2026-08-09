@@ -10,8 +10,13 @@ export function HeroMotion() {
     const root = rootRef.current;
     if (!root) return;
 
+    const viewport = root.closest<HTMLElement>(".hero-viewport");
     let inView = true;
-    const sync = () => setRunning(inView && !document.hidden);
+    const sync = () => {
+      const shouldRun = inView && !document.hidden;
+      setRunning(shouldRun);
+      if (viewport) viewport.dataset.heroActive = String(shouldRun);
+    };
     const observer = new IntersectionObserver(
       ([entry]) => {
         inView = entry.isIntersecting;
@@ -25,6 +30,7 @@ export function HeroMotion() {
     return () => {
       observer.disconnect();
       document.removeEventListener("visibilitychange", sync);
+      if (viewport) delete viewport.dataset.heroActive;
     };
   }, []);
 

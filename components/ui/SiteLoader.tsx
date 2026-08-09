@@ -9,7 +9,7 @@ export function SiteLoader() {
   useEffect(() => {
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const leaveAfter = motionQuery.matches ? 180 : 3000;
-    const hideAfter = motionQuery.matches ? 360 : 3400;
+    const hideAfter = motionQuery.matches ? 360 : 3760;
     const leave = window.setTimeout(() => setStage("leaving"), leaveAfter);
     const hide = window.setTimeout(() => setStage("hidden"), hideAfter);
     return () => {
