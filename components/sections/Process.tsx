@@ -17,7 +17,7 @@ export function Process() {
           <div className="about-profile md:col-span-6 md:justify-self-end">
             <div className="portrait-slot">
               <Image
-                src="/people/yago-monteiro-4k-natural.webp"
+                src="/people/yago-monteiro-final.webp"
                 alt="Retrato de Yago Monteiro, fundador da Master Digital"
                 fill
                 quality={95}

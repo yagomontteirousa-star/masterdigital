@@ -1357,14 +1357,13 @@
   }
 
   .portrait-slot__photo {
-    object-fit: cover;
-    object-position: 50% 20%;
-    transform: scale(1.15);
-    transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1), filter 500ms ease-out;
+    object-fit: contain;
+    object-position: center;
+    transform: scale(1);
+    transition: filter 500ms ease-out;
   }
 
   .portrait-slot:hover .portrait-slot__photo {
-    transform: scale(1.18);
     filter: saturate(1.06) contrast(1.02);
   }
 
