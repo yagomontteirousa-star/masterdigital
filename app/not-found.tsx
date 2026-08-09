@@ -24,7 +24,7 @@ export default function NotFound() {
 
         <p className="mt-7 max-w-lg text-lg leading-8 text-ink-600">
           O endereço pode ter mudado ou o link está incompleto. Volte aos projetos ou
-          fale comigo direto.
+          fale diretamente comigo.
         </p>
 
         <div className="mt-9 flex flex-col gap-3 sm:flex-row">

@@ -23,7 +23,7 @@ export const site = {
   email: "yagomontteirousa@gmail.com",
 
   /* ---- SUBSTITUIR: cidade / regiao de atendimento ---- */
-  location: "Atendimento remoto · mundo todo",
+  location: "Atendimento remoto · no mundo todo",
 } as const;
 
 /** Link de WhatsApp ja montado com a mensagem inicial. */
@@ -50,7 +50,7 @@ export const processSteps = [
   {
     number: "01",
     title: "Estratégia",
-    text: "Entendo o que a empresa vende, para quem, e qual ação precisa acontecer no site.",
+    text: "Entendo o que a empresa vende, para quem vende e qual ação precisa acontecer no site.",
     detail: "Escopo, arquitetura e mensagem",
   },
   {

@@ -31,7 +31,7 @@ export const copy = {
     projects: {
       titleBefore: "Sites diferentes para",
       titleAccent: "negócios diferentes.",
-      description: "Sites publicados em segmentos diferentes, todos desenhados para deixar a empresa clara e facilitar o próximo contato.",
+      description: "Sites publicados em segmentos diferentes, todos desenhados para tornar clara a proposta da empresa e facilitar o próximo contato.",
       explore: "Arraste para explorar · movimento contínuo",
       region: "Projetos publicados em carrossel",
       visitPrompt: "Clique para visitar",
@@ -51,7 +51,7 @@ export const copy = {
       processStart: "Três etapas.",
       processEnd: "Nenhuma surpresa.",
       steps: [
-        { title: "Estratégia", text: "Entendo o que a empresa vende, para quem, e qual ação precisa acontecer no site." },
+        { title: "Estratégia", text: "Entendo o que a empresa vende, para quem vende e qual ação precisa acontecer no site." },
         { title: "Criação", text: "Desenho e desenvolvo sob medida. Nada de tema pronto: cada bloco tem função comercial." },
         { title: "Publicação", text: "Publico com domínio, SEO básico e testes em desktop e celular. Entrego funcionando." },
       ],
@@ -59,7 +59,7 @@ export const copy = {
     final: {
       eyebrow: "Seu próximo site começa aqui",
       title: "Me conte o que sua empresa faz e eu digo o que o site precisa ter",
-      description: "Envie o nome da empresa e o que você vende. Atendo clientes no Brasil e no mundo, com as perguntas certas para definir escopo e prazo.",
+      description: "Envie o nome da empresa e o que você vende. Atendo clientes no mundo todo e faço as perguntas certas para definir o escopo e o prazo.",
       journeyAria: "Do primeiro insight ao resultado",
       journey: ["Ideia", "Estrutura", "Resultado"],
       serviceLabel: "Atendimento",
@@ -83,7 +83,7 @@ export const copy = {
     language: {
       href: "/en",
       short: "EN",
-      label: "View the entire site in English",
+      label: "Ver o site completo em inglês",
     },
   },
   en: {
@@ -168,7 +168,7 @@ export const copy = {
     language: {
       href: "/",
       short: "PT",
-      label: "Ver o site completo em português",
+      label: "View the full site in Portuguese",
     },
   },
 } as const;

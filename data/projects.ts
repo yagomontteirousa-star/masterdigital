@@ -50,7 +50,7 @@ export const projects: Project[] = [
     name: "Vilela Turismo",
     segment: "Agência de viagens",
     location: { state: "Goiás", country: "Brasil", flag: "br" },
-    description: "Landing page onde a cotação do pacote começa e termina no WhatsApp.",
+    description: "Landing page em que a cotação do pacote começa e termina no WhatsApp.",
     objective:
       "Mostrar que existe uma agência real, com endereço físico e gente por trás, e encurtar o caminho entre a dúvida sobre o pacote e a conversa com o time.",
     deliverables: [
@@ -130,7 +130,7 @@ export const projects: Project[] = [
     name: "Gustavo San",
     segment: "Locução e voice-over",
     location: { state: "São Paulo", country: "Brasil", flag: "br" },
-    description: "Portfólio de voz para enviar direto a agências e produtoras.",
+    description: "Portfólio de voz criado para ser enviado diretamente a agências e produtoras.",
     objective:
       "Reunir trajetória, demos e marcas atendidas em uma página única que funcione como cartão de visita em uma negociação.",
     deliverables: [
