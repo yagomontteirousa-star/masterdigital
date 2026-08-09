@@ -109,7 +109,7 @@ export const projects: Project[] = [
     slug: "gustavo-san",
     name: "Gustavo San",
     segment: "Locução e voice-over",
-    location: { country: "Brasil", flag: "br" },
+    location: { state: "São Paulo", country: "Brasil", flag: "br" },
     description: "Portfólio de voz para enviar direto a agências e produtoras.",
     objective:
       "Reunir trajetória, demos e marcas atendidas em uma página única que funcione como cartão de visita em uma negociação.",

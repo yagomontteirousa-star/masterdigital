@@ -49,16 +49,16 @@ export function ProjectCard({ project, priority = false, duplicate = false, onVi
         <div>
           <div className="project-tile__meta">
             <p className="text-xs font-bold uppercase tracking-[0.12em] text-accent-dark">{project.segment}</p>
-            <p className="project-tile__location">
-              <span
-                role="img"
-                aria-label={`Bandeira de ${project.location.country}`}
-                className={`country-flag country-flag--${project.location.flag}`}
-              />
-              <span>{project.location.state ? `${project.location.state} · ` : ""}{project.location.country}</span>
-            </p>
           </div>
           <h3 className="display mt-2 text-[clamp(2rem,3vw,2.75rem)]">{project.name}</h3>
+          <p className="project-tile__location mt-3">
+            <span
+              role="img"
+              aria-label={`Bandeira de ${project.location.country}`}
+              className={`country-flag country-flag--${project.location.flag}`}
+            />
+            <span>{project.location.state ? `${project.location.state} · ` : ""}{project.location.country}</span>
+          </p>
           <p className="mt-3 max-w-xl text-sm leading-6 text-ink-600">{project.description}</p>
         </div>
         <span
