@@ -8,6 +8,7 @@ type PublishedProject = Project & { url: string };
 
 type DragState = {
   active: boolean;
+  dragging: boolean;
   pointerId: number;
   pointerType: string;
   startX: number;
@@ -17,12 +18,15 @@ type DragState = {
 
 const idleDrag: DragState = {
   active: false,
+  dragging: false,
   pointerId: -1,
   pointerType: "",
   startX: 0,
   startScrollLeft: 0,
   moved: 0,
 };
+
+const dragThreshold = 16;
 
 export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) {
   const viewportRef = useRef<HTMLDivElement>(null);
@@ -37,17 +41,9 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
   const dialogOpenRef = useRef(false);
   const dialogInputRef = useRef<"pointer" | "keyboard">("pointer");
   const suppressClickUntilRef = useRef(0);
-  const dialogRef = useRef<HTMLDialogElement>(null);
   const dragRef = useRef<DragState>({ ...idleDrag });
   const [dragging, setDragging] = useState(false);
   const [pendingProject, setPendingProject] = useState<PublishedProject | null>(null);
-
-  useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!pendingProject || !dialog || dialog.open) return;
-    dialogOpenRef.current = true;
-    dialog.showModal();
-  }, [pendingProject]);
 
   useEffect(() => {
     const viewport = viewportRef.current;
@@ -182,8 +178,6 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
 
   useEffect(() => {
     const clearStaleDialog = () => {
-      const dialog = dialogRef.current;
-      if (dialog?.open) dialog.close();
       dialogOpenRef.current = false;
       setPendingProject(null);
     };
@@ -201,22 +195,30 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
   };
 
   const requestProjectVisit = (project: PublishedProject, input: "pointer" | "keyboard") => {
-    if (performance.now() <= suppressClickUntilRef.current) return;
+    if (dialogOpenRef.current || performance.now() <= suppressClickUntilRef.current) return;
     dialogInputRef.current = input;
     stopLoopRef.current();
     if (resumeTimerRef.current !== null) window.clearTimeout(resumeTimerRef.current);
+    dialogOpenRef.current = true;
     setPendingProject(project);
   };
 
   const closeVisitDialog = () => {
-    if (dialogRef.current?.open) dialogRef.current.close();
+    dialogOpenRef.current = false;
+    setPendingProject(null);
+    requestAnimationFrame(() => {
+      const activeElement = document.activeElement;
+      if (dialogInputRef.current === "pointer" && activeElement instanceof HTMLElement && activeElement.closest(".project-tile")) {
+        activeElement.blur();
+      }
+      focusWithinRef.current = false;
+      scheduleResume(700);
+    });
   };
 
   const confirmProjectVisit = () => {
     if (!pendingProject) return;
     const destination = pendingProject.url;
-    dialogOpenRef.current = false;
-    setPendingProject(null);
     closeVisitDialog();
     window.open(destination, "_blank", "noopener,noreferrer");
   };
@@ -229,17 +231,13 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
     if (resumeTimerRef.current !== null) window.clearTimeout(resumeTimerRef.current);
     dragRef.current = {
       active: true,
+      dragging: false,
       pointerId: event.pointerId,
       pointerType: event.pointerType,
       startX: event.clientX,
       startScrollLeft: viewport.scrollLeft,
       moved: 0,
     };
-    if (event.pointerType === "mouse") {
-      event.preventDefault();
-      event.currentTarget.setPointerCapture(event.pointerId);
-      setDragging(true);
-    }
   };
 
   const moveDrag = (event: React.PointerEvent<HTMLDivElement>) => {
@@ -247,6 +245,14 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
     if (!drag.active || drag.pointerId !== event.pointerId) return;
     const delta = event.clientX - drag.startX;
     drag.moved = Math.max(drag.moved, Math.abs(delta));
+
+    if (!drag.dragging) {
+      if (drag.moved <= dragThreshold) return;
+      drag.dragging = true;
+      setDragging(true);
+      if (drag.pointerType === "mouse") event.currentTarget.setPointerCapture(event.pointerId);
+    }
+
     if (drag.pointerType !== "mouse") return;
     event.preventDefault();
     if (viewportRef.current) viewportRef.current.scrollLeft = drag.startScrollLeft - delta;
@@ -255,7 +261,7 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
   const finishDrag = (event: React.PointerEvent<HTMLDivElement>) => {
     const drag = dragRef.current;
     if (!drag.active || drag.pointerId !== event.pointerId) return;
-    const didDrag = drag.moved > 7;
+    const didDrag = drag.dragging;
     dragRef.current = { ...idleDrag };
     setDragging(false);
     if (didDrag) suppressClickUntilRef.current = performance.now() + 450;
@@ -277,7 +283,7 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
         aria-label="Projetos publicados em carrossel"
         onPointerDownCapture={beginDrag}
         onPointerMove={moveDrag}
-        onPointerUp={finishDrag}
+        onPointerUpCapture={finishDrag}
         onPointerCancel={finishDrag}
         onLostPointerCapture={finishDrag}
         onPointerEnter={(event) => {
@@ -285,12 +291,6 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
         }}
         onPointerLeave={(event) => {
           if (event.pointerType === "mouse" && !dragRef.current.active && !focusWithinRef.current) scheduleResume(700);
-        }}
-        onClickCapture={(event) => {
-          if (performance.now() > suppressClickUntilRef.current) return;
-          event.preventDefault();
-          event.stopPropagation();
-          suppressClickUntilRef.current = 0;
         }}
         onDragStart={(event) => event.preventDefault()}
         onFocusCapture={() => {
@@ -323,32 +323,23 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
         </div>
       </div>
 
-      <dialog
-        ref={dialogRef}
-        className="project-visit-dialog"
-        aria-labelledby="project-visit-title"
-        aria-describedby="project-visit-description"
-        onCancel={(event) => {
-          event.preventDefault();
-          closeVisitDialog();
-        }}
-        onClose={() => {
-          dialogOpenRef.current = false;
-          setPendingProject(null);
-          if (dialogInputRef.current === "pointer") {
-            requestAnimationFrame(() => {
-              const activeElement = document.activeElement;
-              if (activeElement instanceof HTMLElement && activeElement.closest(".project-tile")) {
-                activeElement.blur();
-              }
-              focusWithinRef.current = false;
-              scheduleResume(700);
-            });
-          }
-        }}
-      >
-        {pendingProject ? (
-          <div className="project-visit-dialog__surface">
+      {pendingProject ? (
+        <div
+          className="project-visit-dialog"
+          onPointerDown={(event) => {
+            if (event.target === event.currentTarget) closeVisitDialog();
+          }}
+          onKeyDown={(event) => {
+            if (event.key === "Escape") closeVisitDialog();
+          }}
+        >
+          <section
+            className="project-visit-dialog__surface"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="project-visit-title"
+            aria-describedby="project-visit-description"
+          >
             <p className="project-visit-dialog__domain">
               {pendingProject.url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}
             </p>
@@ -362,9 +353,9 @@ export function ProjectCarousel({ projects }: { projects: PublishedProject[] }) 
                 Visitar site
               </button>
             </div>
-          </div>
-        ) : null}
-      </dialog>
+          </section>
+        </div>
+      ) : null}
     </div>
   );
 }

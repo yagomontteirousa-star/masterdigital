@@ -885,18 +885,30 @@
   }
 
   .project-carousel .project-tile {
+    position: relative;
     width: clamp(18rem, 40vw, 34rem);
     flex: 0 0 auto;
     transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .project-tile__visit-trigger {
-    position: relative;
-    overflow: hidden;
+  .project-tile__visit-action {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    width: 100%;
+    border: 0;
+    border-radius: 0.875rem;
+    background: transparent;
     cursor: pointer;
   }
 
-  .project-tile:focus-visible {
+  .project-tile__visit-trigger {
+    position: relative;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .project-tile__visit-action:focus-visible {
     border-radius: 0.875rem;
     outline: 2px solid var(--color-accent);
     outline-offset: 8px;
@@ -929,8 +941,8 @@
   }
 
   @media (hover: hover) and (width >= 48rem) {
-    .project-tile__visit-trigger:hover .project-tile__visit-prompt,
-    .project-tile__visit-trigger:focus-visible .project-tile__visit-prompt {
+    .project-tile:hover .project-tile__visit-prompt,
+    .project-tile:focus-within .project-tile__visit-prompt {
       opacity: 1;
     }
   }
@@ -956,27 +968,21 @@
 
   .project-visit-dialog {
     position: fixed;
-    inset: 50% auto auto 50%;
-    width: min(calc(100% - 2rem), 31rem);
-    max-height: calc(100dvh - 2rem);
-    max-width: none;
-    overflow-x: hidden;
-    overflow-y: auto;
-    border: 0;
-    border-radius: 1rem;
-    margin: 0;
-    padding: 0;
-    background: transparent;
-    color: var(--color-ink);
-    transform: translate(-50%, -50%);
-  }
-
-  .project-visit-dialog::backdrop {
+    z-index: 100;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    overflow: auto;
+    padding: 1rem;
     background: rgb(23 23 20 / 0.66);
+    color: var(--color-ink);
     backdrop-filter: blur(6px);
   }
 
   .project-visit-dialog__surface {
+    width: min(100%, 31rem);
+    max-height: calc(100dvh - 2rem);
+    overflow-y: auto;
     border: 1px solid rgb(255 255 255 / 0.58);
     border-radius: 1rem;
     background: #fbf8f1;

@@ -18,20 +18,18 @@ export function ProjectCard({ project, priority = false, duplicate = false, onVi
     <article
       className="project-tile group"
       aria-hidden={duplicate || undefined}
-      aria-label={`Ver o site ${project.name}`}
       data-project-slug={project.slug}
-      onClick={() => visit("pointer")}
-      onKeyDown={(event) => {
-        if (duplicate || (event.key !== "Enter" && event.key !== " ")) return;
-        event.preventDefault();
-        visit("keyboard");
-      }}
-      role={duplicate ? undefined : "button"}
-      tabIndex={duplicate ? -1 : 0}
     >
+      <button
+        type="button"
+        className="project-tile__visit-action"
+        aria-label={`Ver o site ${project.name}`}
+        tabIndex={duplicate ? -1 : undefined}
+        onPointerUp={() => visit("pointer")}
+        onClick={() => visit("pointer")}
+      />
       <div
         className="project-tile__visit-trigger block w-full rounded-[0.875rem] text-left"
-        aria-label={`Ver o site ${project.name}`}
       >
         <BrowserFrame
           src={project.cover}
