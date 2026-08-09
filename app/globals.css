@@ -507,10 +507,15 @@
     pointer-events: none;
   }
 
+  .site-loader--visible {
+    animation: loader-safe-dismiss 420ms 3.2s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+  }
+
   .site-loader--leaving {
     visibility: hidden;
     opacity: 0;
     clip-path: inset(0 0 100% 0);
+    pointer-events: none;
   }
 
   .site-loader__topline {
@@ -822,12 +827,20 @@
 
   .project-carousel__viewport {
     margin-top: 1rem;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
     padding-block: 1.75rem 0.5rem;
     cursor: grab;
-    overscroll-behavior-inline: contain;
-    touch-action: pan-y pinch-zoom;
+    overscroll-behavior-x: contain;
+    overscroll-behavior-y: auto;
+    scrollbar-width: none;
+    touch-action: pan-x pan-y pinch-zoom;
     user-select: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .project-carousel__viewport::-webkit-scrollbar {
+    display: none;
   }
 
   .project-carousel__viewport,
@@ -846,9 +859,7 @@
   .project-carousel__track {
     display: flex;
     width: max-content;
-    backface-visibility: hidden;
-    transform: translate3d(0, 0, 0);
-    will-change: transform;
+    contain: layout paint;
   }
 
   .project-carousel__group {
@@ -1111,6 +1122,7 @@
   }
 
   .final-cta {
+    position: relative;
     isolation: isolate;
   }
 
@@ -1122,6 +1134,7 @@
       radial-gradient(circle at 88% 24%, rgb(247 242 232 / 0.26), transparent 22%),
       radial-gradient(circle at 14% 82%, rgb(23 23 20 / 0.1), transparent 26%);
     content: "";
+    pointer-events: none;
   }
 
   .final-cta__layout {
@@ -1900,6 +1913,15 @@
   @keyframes signal-orbit {
     to {
       transform: rotate(360deg);
+    }
+  }
+
+  @keyframes loader-safe-dismiss {
+    to {
+      visibility: hidden;
+      opacity: 0;
+      clip-path: inset(0 0 100% 0);
+      pointer-events: none;
     }
   }
 
