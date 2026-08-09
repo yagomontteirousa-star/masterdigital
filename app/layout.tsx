@@ -19,8 +19,7 @@ const sans = Manrope({
   variable: "--font-sans-face",
 });
 
-const deploymentUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null;
-const publicUrl = site.url ?? deploymentUrl;
+const publicUrl = site.url;
 const title = `${site.studio} — Sites sob medida para empresas`;
 const description =
   "Sites sob medida para empresas que precisam apresentar bem o que fazem, transmitir confiança e transformar visitas em novas conversas.";

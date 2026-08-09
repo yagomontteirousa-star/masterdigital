@@ -3,7 +3,7 @@
  * Tudo que muda com frequencia mora aqui — nao espalhe pelos componentes.
  */
 
-const configuredUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, "");
+const canonicalUrl = "https://masterdigital.dev";
 
 export const site = {
   /* ---- SUBSTITUIR: nome exibido no header e no footer ---- */
@@ -12,8 +12,7 @@ export const site = {
   studio: "Master Digital",
   role: "Sites sob medida para empresas no mundo todo",
 
-  /* Defina NEXT_PUBLIC_SITE_URL somente quando o domínio final existir. */
-  url: configuredUrl || null,
+  url: canonicalUrl,
 
   /* Número real com DDI + DDD, apenas dígitos. */
   whatsappNumber: "17742498958",
