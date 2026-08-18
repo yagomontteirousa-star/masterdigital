@@ -25,10 +25,10 @@ export function Brand({ tone = "dark", variant = "personal", className, onClick,
         aria-label={`${site.studio} — ${startLabel}`}
       >
         <Image
-          src={darkSurface ? "/brand/master-digital-white.svg" : "/brand/master-digital-black.svg"}
+          src={darkSurface ? "/brand/master-digital-horizontal-branca.png" : "/brand/master-digital-horizontal-preta.png"}
           alt="Master Digital"
-          width={1120}
-          height={300}
+          width={2172}
+          height={724}
           className="h-7 w-auto transition-transform duration-200 group-hover:-rotate-1"
         />
       </a>
@@ -45,12 +45,12 @@ export function Brand({ tone = "dark", variant = "personal", className, onClick,
       <Image
         src={
           darkSurface
-            ? "/brand/master-digital-symbol-orange.svg"
-            : "/brand/master-digital-symbol-black.svg"
+            ? "/brand/master-digital-perfil-branca.png"
+            : "/brand/master-digital-perfil-preta.png"
         }
         alt=""
-        width={512}
-        height={512}
+        width={1254}
+        height={1254}
         className="size-6 transition-transform duration-200 group-hover:-rotate-3"
       />
       <span className="flex flex-col leading-none">

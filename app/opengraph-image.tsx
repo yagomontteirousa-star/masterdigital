@@ -9,8 +9,8 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 const logoImage = readFile(
-  path.join(process.cwd(), "public", "brand", "master-digital-white.svg"),
-).then((file) => `data:image/svg+xml;base64,${file.toString("base64")}`);
+  path.join(process.cwd(), "public", "brand", "master-digital-horizontal-branca.png"),
+).then((file) => `data:image/png;base64,${file.toString("base64")}`);
 
 const dots = Array.from({ length: 86 }, (_, index) => ({
   left: 18 + ((index * 157 + 43) % 1164),
@@ -76,8 +76,8 @@ export default async function OpenGraphImage() {
             src={logo}
             alt=""
             width="648"
-            height="187"
-            style={{ width: 648, height: 187, objectFit: "contain" }}
+            height="216"
+            style={{ width: 648, height: 216, objectFit: "contain" }}
           />
         </div>
       </div>

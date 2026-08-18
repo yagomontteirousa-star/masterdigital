@@ -28,6 +28,12 @@ const TARGETS = [
   { slug: "vilela-turismo", url: "https://vilelaturismo.com/", file: "vilela-turismo-repo/index.html" },
   { slug: "al-the-painter", url: "https://althepainterllc.vercel.app/", file: "althepainterllc/index.html" },
   { slug: "elite-painting", url: "https://elitepainting-gilt.vercel.app/", file: null },
+  {
+    slug: "preto-no-branco",
+    url: "https://pretonobranco.app/",
+    file: null,
+    hideSelector: 'img[alt="Master Digital"]',
+  },
   { slug: "camilas-cleaning", url: "https://camilascleaning.vercel.app/", file: "camilascleaning/index.html" },
   { slug: "gustavo-san", url: "https://gustavosan.com/", file: "gustavosan/index.html" },
   { slug: "master-sonorizacao", url: "https://sitemastersom.vercel.app/", file: "mastersonorizacao/index.html" },
@@ -43,8 +49,8 @@ function findChrome() {
 }
 
 /** Remove loaders/overlays e congela animacoes para a captura sair limpa. */
-async function settle(page) {
-  await page.evaluate(() => {
+async function settle(page, hideSelector) {
+  await page.evaluate((selector) => {
     document.querySelectorAll(".site-loader, .loader, #preloader").forEach((el) => el.remove());
     // Imagens que nao carregaram viram icone de "quebrado" na captura.
     document.querySelectorAll("img").forEach((img) => {
@@ -57,8 +63,11 @@ async function settle(page) {
     style.textContent = `*,*::before,*::after{animation-play-state:paused!important;transition:none!important}
       .reveal,[class*="reveal"]{opacity:1!important;transform:none!important}`;
     document.head.appendChild(style);
+    if (selector) document.querySelectorAll(selector).forEach((el) => {
+      el.style.visibility = "hidden";
+    });
     window.scrollTo(0, 0);
-  });
+  }, hideSelector);
   await new Promise((r) => setTimeout(r, 1800));
 }
 
@@ -67,7 +76,7 @@ async function captureOg(browser) {
   const page = await browser.newPage();
   await page.setViewport({ width: 1200, height: 630, deviceScaleFactor: 1 });
   const mark = pathToFileURL(
-    resolve(__dirname, "..", "public", "brand", "master-digital-black.svg"),
+    resolve(__dirname, "..", "public", "brand", "master-digital-horizontal-preta.png"),
   ).href;
 
   await page.setContent(`<!doctype html><html><head><meta charset="utf-8">
@@ -139,7 +148,7 @@ async function main() {
     for (const src of sources) {
       try {
         await page.goto(src, { waitUntil: "networkidle2", timeout: 45000 });
-        await settle(page);
+        await settle(page, target.hideSelector);
         await page.screenshot({
           path: resolve(OUT_DIR, `${target.slug}.jpg`),
           type: "jpeg",

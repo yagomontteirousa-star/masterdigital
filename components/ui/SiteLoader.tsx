@@ -25,7 +25,7 @@ export function SiteLoader({ locale = "pt" }: { locale?: Locale }) {
   return (
     <div className={`site-loader site-loader--${stage}`} role="status" aria-live="polite">
       <div className="site-loader__topline" aria-hidden="true">
-        <Image src="/brand/master-digital-symbol-orange.svg" alt="" width={512} height={512} priority />
+        <Image src="/brand/master-digital-perfil-laranja.png" alt="" width={1254} height={1254} priority />
         <span>Master Digital</span>
         <span>{labels.building}</span>
       </div>
@@ -41,17 +41,17 @@ export function SiteLoader({ locale = "pt" }: { locale?: Locale }) {
           </span>
           <span className="site-loader__orbit" />
           <div className="site-loader__mark">
-            <Image src="/brand/master-digital-symbol-orange.svg" alt="" width={512} height={512} priority />
+            <Image src="/brand/master-digital-perfil-laranja.png" alt="" width={1254} height={1254} priority />
           </div>
           <span className="site-loader__cursor" />
         </div>
 
         <div className="site-loader__identity">
           <Image
-            src="/brand/master-digital-white.svg"
+            src="/brand/master-digital-horizontal-branca.png"
             alt="Master Digital"
-            width={1120}
-            height={300}
+            width={2172}
+            height={724}
             priority
           />
           <p>{labels.tagline}</p>

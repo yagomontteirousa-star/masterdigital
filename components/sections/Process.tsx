@@ -28,10 +28,10 @@ export function Process({ locale = "pt" }: { locale?: Locale }) {
               <span className="portrait-slot__shade" aria-hidden="true" />
               <span className="portrait-slot__signature">
                 <Image
-                  src="/brand/master-digital-symbol-orange.svg"
+                  src="/brand/master-digital-perfil-laranja.png"
                   alt=""
-                  width={512}
-                  height={512}
+                  width={1254}
+                  height={1254}
                 />
                 Yago Monteiro
               </span>

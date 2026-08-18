@@ -10,7 +10,7 @@
  * A ordem do array e a ordem exibida na home.
  */
 
-export type ProjectCategory = "Serviços" | "Catálogo" | "Portfólio";
+export type ProjectCategory = "Serviços" | "Catálogo" | "Portfólio" | "Experiência interativa";
 
 export interface Project {
   /** Identificador unico. Tambem e o nome do arquivo de preview. */
@@ -126,6 +126,26 @@ export const projects: Project[] = [
     featured: true,
   },
   {
+    slug: "preto-no-branco",
+    name: "Preto no Branco",
+    segment: "Experiência interativa / jogo de futebol",
+    location: { state: "Minas Gerais", country: "Brasil", flag: "br" },
+    description: "Jogo interativo em que o torcedor monta elencos históricos do Galo e atravessa diferentes eras.",
+    objective:
+      "Transformar a memória afetiva do futebol em uma experiência de estratégia: montar o elenco, definir a tática e conduzir uma campanha até o título.",
+    deliverables: [
+      "Experiência interativa de futebol",
+      "Sistema de formação e tática",
+      "Elencos históricos por era",
+      "Fluxo de campanha em cinco etapas",
+    ],
+    cover: "/projects/preto-no-branco.jpg",
+    coverAlt: "Tela inicial do jogo Preto no Branco",
+    url: "https://pretonobranco.app/",
+    category: "Experiência interativa",
+    featured: true,
+  },
+  {
     slug: "gustavo-san",
     name: "Gustavo San",
     segment: "Locução e voice-over",
@@ -227,6 +247,15 @@ const englishProjectCopy: Record<string, Pick<Project, "segment" | "location" | 
     deliverables: ["English-language business website", "Real project portfolio", "Services and customer reviews", "Technical SEO and direct contact"],
     coverAlt: "Elite Carpentry & Painting website homepage",
     category: "Serviços",
+  },
+  "preto-no-branco": {
+    segment: "Interactive football game",
+    location: { state: "Minas Gerais", country: "Brazil", flag: "br" },
+    description: "An interactive football game where fans build historic Atlético squads and move across different eras.",
+    objective: "Turn football memory into a strategy experience: build a squad, set the tactics, and take a campaign all the way to the title.",
+    deliverables: ["Interactive football experience", "Formation and tactics system", "Historic squads by era", "Five-step campaign flow"],
+    coverAlt: "Preto no Branco game home screen",
+    category: "Experiência interativa",
   },
   "gustavo-san": {
     segment: "Voice-over artist",

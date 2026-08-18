@@ -13,10 +13,10 @@ export function Footer({ locale = "pt" }: { locale?: Locale }) {
         <div>
           <div className="flex items-center gap-4">
             <Image
-              src="/brand/master-digital-symbol-orange.svg"
+              src="/brand/master-digital-perfil-laranja.png"
               alt=""
-              width={512}
-              height={512}
+              width={1254}
+              height={1254}
               className="size-8"
             />
             <div>

@@ -19,6 +19,7 @@ export function Hero({ locale = "pt" }: { locale?: Locale }) {
     "vilela-turismo",
     "al-the-painter",
     "elite-painting",
+    "preto-no-branco",
     "gustavo-san",
     "master-sonorizacao",
     "beltrame-acessorios",
@@ -69,10 +70,10 @@ export function Hero({ locale = "pt" }: { locale?: Locale }) {
           <div className="hero-grid__divider" aria-hidden="true">
             <span className="hero-grid__divider-mark">
               <Image
-                src="/brand/master-digital-symbol-orange.svg"
+                src="/brand/master-digital-perfil-laranja.png"
                 alt=""
-                width={512}
-                height={512}
+                width={1254}
+                height={1254}
               />
             </span>
           </div>
